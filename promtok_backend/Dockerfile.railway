@@ -27,11 +27,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Python deps
-COPY maestro_backend/requirements.txt /app/requirements.txt
+COPY promtok_backend/requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
 # Copy backend source
-COPY maestro_backend/ /app/
+COPY promtok_backend/ /app/
 
 # Normalize line endings
 RUN find /app -type f -name "*.sh" -exec dos2unix {} \; && chmod +x /app/start.sh
@@ -45,4 +45,3 @@ ENV FORCE_CPU_MODE=true \
 EXPOSE 8000
 
 CMD ["/app/start.sh"]
-

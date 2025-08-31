@@ -2,7 +2,7 @@ services:
   backend:
     # Mount source for live reload in dev
     volumes:
-      - ./maestro_backend:/app
+      - ./promtok_backend:/app
     environment:
       - UVICORN_RELOAD=${UVICORN_RELOAD:-true}
 

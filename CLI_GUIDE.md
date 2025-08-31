@@ -22,21 +22,21 @@ chmod +x promtok-cli.sh
 ### Windows PowerShell
 ```powershell
 # Show available commands
-.\maestro-cli.ps1 help
+.\promtok-cli.ps1 help
 
 # Example: Create a user and ingest documents
-.\maestro-cli.ps1 create-user researcher mypass123
-.\maestro-cli.ps1 ingest researcher .\documents
+.\promtok-cli.ps1 create-user researcher mypass123
+.\promtok-cli.ps1 ingest researcher .\documents
 ```
 
 ### Windows Command Prompt
 ```cmd
 REM Show available commands
-maestro-cli.bat help
+promtok-cli.bat help
 
 REM Example: Create a user and ingest documents
-maestro-cli.bat create-user researcher mypass123
-maestro-cli.bat ingest researcher .\documents
+promtok-cli.bat create-user researcher mypass123
+promtok-cli.bat ingest researcher .\documents
 ```
 
 ## Key Features
@@ -57,7 +57,7 @@ maestro-cli.bat ingest researcher .\documents
 Create a new user account.
 
 ```bash
-./maestro-cli.sh create-user <username> <password> [options]
+./promtok-cli.sh create-user <username> <password> [options]
 ```
 
 **Options:**
@@ -67,17 +67,17 @@ Create a new user account.
 **Examples:**
 ```bash
 # Create a regular user
-./maestro-cli.sh create-user researcher mypass123 --full-name "Research User"
+./promtok-cli.sh create-user researcher mypass123 --full-name "Research User"
 
 # Create an admin user
-./maestro-cli.sh create-user admin adminpass --admin --full-name "Administrator"
+./promtok-cli.sh create-user admin adminpass --admin --full-name "Administrator"
 ```
 
 #### list-users
 List all users in the system (admin only).
 
 ```bash
-./maestro-cli.sh list-users
+./promtok-cli.sh list-users
 ```
 
 ### Document Group Management
@@ -86,7 +86,7 @@ List all users in the system (admin only).
 Create a document group for organizing documents.
 
 ```bash
-./maestro-cli.sh create-group <username> <group_name> [options]
+./promtok-cli.sh create-group <username> <group_name> [options]
 ```
 
 **Options:**
@@ -94,14 +94,14 @@ Create a document group for organizing documents.
 
 **Example:**
 ```bash
-./maestro-cli.sh create-group researcher "AI Papers" --description "Machine Learning Research"
+./promtok-cli.sh create-group researcher "AI Papers" --description "Machine Learning Research"
 ```
 
 #### list-groups
 List document groups.
 
 ```bash
-./maestro-cli.sh list-groups [options]
+./promtok-cli.sh list-groups [options]
 ```
 
 **Options:**
@@ -110,19 +110,19 @@ List document groups.
 **Examples:**
 ```bash
 # List all groups (admin view)
-./maestro-cli.sh list-groups
+./promtok-cli.sh list-groups
 
 # List groups for a specific user
-./maestro-cli.sh list-groups --user researcher
+./promtok-cli.sh list-groups --user researcher
 ```
 
 ### Document Processing
 
 #### ingest
-Process documents directly with live feedback. This is the primary command for adding documents to MAESTRO.
+Process documents directly with live feedback. This is the primary command for adding documents to PROMTOK.
 
 ```bash
-./maestro-cli.sh ingest <username> <document_directory> [options]
+./promtok-cli.sh ingest <username> <document_directory> [options]
 ```
 
 **Options:**
@@ -140,19 +140,19 @@ Process documents directly with live feedback. This is the primary command for a
 **Examples:**
 ```bash
 # Basic ingestion (documents added to user library)
-./maestro-cli.sh ingest researcher ./documents
+./promtok-cli.sh ingest researcher ./documents
 
 # Add to specific group
-./maestro-cli.sh ingest researcher ./documents --group abc123-def456
+./promtok-cli.sh ingest researcher ./documents --group abc123-def456
 
 # Process with specific GPU
-./maestro-cli.sh ingest researcher ./documents --device cuda:0
+./promtok-cli.sh ingest researcher ./documents --device cuda:0
 
 # Force re-processing and delete after success
-./maestro-cli.sh ingest researcher ./documents --force-reembed --delete-after-success
+./promtok-cli.sh ingest researcher ./documents --force-reembed --delete-after-success
 
 # Process with larger batch size for faster processing
-./maestro-cli.sh ingest researcher ./documents --batch-size 10
+./promtok-cli.sh ingest researcher ./documents --batch-size 10
 ```
 
 **Processing Workflow:**
@@ -168,7 +168,7 @@ Process documents directly with live feedback. This is the primary command for a
 Check document processing status.
 
 ```bash
-./maestro-cli.sh status [options]
+./promtok-cli.sh status [options]
 ```
 
 **Options:**
@@ -178,20 +178,20 @@ Check document processing status.
 **Examples:**
 ```bash
 # Check all documents (admin view)
-./maestro-cli.sh status
+./promtok-cli.sh status
 
 # Check status for specific user
-./maestro-cli.sh status --user researcher
+./promtok-cli.sh status --user researcher
 
 # Check status for specific group
-./maestro-cli.sh status --user researcher --group abc123-def456
+./promtok-cli.sh status --user researcher --group abc123-def456
 ```
 
 #### cleanup
 Remove documents that failed to process or have a specific status. This command helps you clean up your database by removing documents that couldn't be processed successfully.
 
 ```bash
-./maestro-cli.sh cleanup [options]
+./promtok-cli.sh cleanup [options]
 ```
 
 **Options:**
@@ -210,23 +210,23 @@ Remove documents that failed to process or have a specific status. This command 
 **Examples:**
 ```bash
 # Clean up all failed documents (asks for confirmation)
-./maestro-cli.sh cleanup --status failed
+./promtok-cli.sh cleanup --status failed
 
 # Clean up failed documents without confirmation
-./maestro-cli.sh cleanup --status failed --confirm
+./promtok-cli.sh cleanup --status failed --confirm
 
 # Clean up error documents for a specific user
-./maestro-cli.sh cleanup --user researcher --status error
+./promtok-cli.sh cleanup --user researcher --status error
 
 # Clean up failed documents in a specific group
-./maestro-cli.sh cleanup --group abc123 --status failed
+./promtok-cli.sh cleanup --group abc123 --status failed
 ```
 
 #### cleanup-cli
 Remove documents that got stuck during CLI processing. This is useful when you interrupt document ingestion (like pressing Ctrl+C) and documents are left in a "cli_processing" state.
 
 ```bash
-./maestro-cli.sh cleanup-cli [options]
+./promtok-cli.sh cleanup-cli [options]
 ```
 
 **Options:**
@@ -247,13 +247,13 @@ Remove documents that got stuck during CLI processing. This is useful when you i
 **Examples:**
 ```bash
 # Check what documents are stuck (dry run)
-./maestro-cli.sh cleanup-cli --dry-run
+./promtok-cli.sh cleanup-cli --dry-run
 
 # Clean up stuck documents (asks for confirmation)
-./maestro-cli.sh cleanup-cli
+./promtok-cli.sh cleanup-cli
 
 # Force cleanup without confirmation
-./maestro-cli.sh cleanup-cli --force
+./promtok-cli.sh cleanup-cli --force
 ```
 
 **When to use each command:**
@@ -266,7 +266,7 @@ Remove documents that got stuck during CLI processing. This is useful when you i
 Search through documents for a specific user.
 
 ```bash
-./maestro-cli.sh search <username> <query> [options]
+./promtok-cli.sh search <username> <query> [options]
 ```
 
 **Options:**
@@ -274,7 +274,7 @@ Search through documents for a specific user.
 
 **Example:**
 ```bash
-./maestro-cli.sh search researcher "machine learning" --limit 5
+./promtok-cli.sh search researcher "machine learning" --limit 5
 ```
 
 ### Database Management
@@ -283,7 +283,7 @@ Search through documents for a specific user.
 Reset all databases and document files. **CRITICAL**: All databases must be reset together to maintain data consistency.
 
 ```bash
-./maestro-cli.sh reset-db [options]
+./promtok-cli.sh reset-db [options]
 ```
 
 **Options:**
@@ -301,16 +301,16 @@ Reset all databases and document files. **CRITICAL**: All databases must be rese
 **Examples:**
 ```bash
 # Show current database statistics
-./maestro-cli.sh reset-db --stats
+./promtok-cli.sh reset-db --stats
 
 # Check data consistency
-./maestro-cli.sh reset-db --check
+./promtok-cli.sh reset-db --check
 
 # Reset with backup
-./maestro-cli.sh reset-db --backup
+./promtok-cli.sh reset-db --backup
 
 # Force reset without confirmation (DANGEROUS!)
-./maestro-cli.sh reset-db --force
+./promtok-cli.sh reset-db --force
 ```
 
 ## Direct Docker Commands
@@ -332,7 +332,7 @@ docker compose --profile cli run --rm cli python cli_ingest.py ingest myuser GRO
 When using the CLI, documents should be placed in the appropriate directories:
 
 ```
-maestro/
+promtok/
 ├── documents/       # Recommended directory for all document types
 ├── pdfs/           # Legacy directory (still supported)
 └── ...
@@ -363,27 +363,27 @@ docker compose up -d backend
 **Permission denied:**
 ```bash
 # Make script executable
-chmod +x maestro-cli.sh
+chmod +x promtok-cli.sh
 ```
 
 **Out of memory:**
 ```bash
 # Reduce batch size
-./maestro-cli.sh ingest user ./docs --batch-size 2
+./promtok-cli.sh ingest user ./docs --batch-size 2
 ```
 
 **GPU not available:**
 ```bash
 # Use CPU processing
-./maestro-cli.sh ingest user ./docs --device cpu
+./promtok-cli.sh ingest user ./docs --device cpu
 ```
 
 ### Getting Help
 
 For detailed help on any command:
 ```bash
-./maestro-cli.sh help
-./maestro-cli.sh <command> --help
+./promtok-cli.sh help
+./promtok-cli.sh <command> --help
 ```
 
 ## Performance Considerations

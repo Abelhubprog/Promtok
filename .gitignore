@@ -272,7 +272,7 @@ temp/
 *.sqlite3
 
 # Database data directory
-maestro_backend/data/
+promtok_backend/data/
 data/
 *.json.bak
 
@@ -438,13 +438,13 @@ docs/*
 notes.md
 WEBSOCKET_REWRITE_TODO.md
 # Temporary test files
-maestro_backend/test_*.py
-maestro_backend/fix_*.py
-maestro_backend/check_*.py
-maestro_backend/cleanup_*.py
-maestro_backend/apply_*.py
-maestro_backend/update_*.py
-maestro_backend/nuke_and_restart.sh
-maestro_backend/ai_researcher/core_rag/vector_store_safe.py
+promtok_backend/test_*.py
+promtok_backend/fix_*.py
+promtok_backend/check_*.py
+promtok_backend/cleanup_*.py
+promtok_backend/apply_*.py
+promtok_backend/update_*.py
+promtok_backend/nuke_and_restart.sh
+promtok_backend/ai_researcher/core_rag/vector_store_safe.py
 temp.txt
 setup.sh

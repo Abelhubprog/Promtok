@@ -39,7 +39,7 @@ services:
 
   backend:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-backend
     container_name: promtok-backend
@@ -51,7 +51,7 @@ services:
       - ./maestro_model_cache:/root/.cache/huggingface
       - ./maestro_datalab_cache:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
     # Backend is now only accessible through nginx, not directly exposed
     # ports:
     #   - "${BACKEND_HOST}:${BACKEND_PORT}:${BACKEND_INTERNAL_PORT}"
@@ -84,7 +84,7 @@ services:
 
   frontend:
     build:
-      context: ./maestro_frontend
+      context: ./promtok_frontend
       dockerfile: Dockerfile
       # No build args needed - using relative URLs through nginx proxy
     image: promtok-frontend
@@ -104,7 +104,7 @@ services:
 
   doc-processor:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-doc-processor  # Unique image name
     container_name: promtok-doc-processor
@@ -115,7 +115,7 @@ services:
       - ./maestro_model_cache:/root/.cache/huggingface
       - ./maestro_datalab_cache:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
     depends_on:
       - backend
     networks:
@@ -136,7 +136,7 @@ services:
   # CLI service for document ingestion and management
   cli:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-cli  # Unique image name
     container_name: promtok-cli

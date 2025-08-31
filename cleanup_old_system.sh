@@ -17,15 +17,15 @@ rm -f data/maestro.db-wal
 
 # Remove old vector store
 echo "Removing old ChromaDB vector store..."
-rm -rf maestro_backend/ai_researcher/data/vector_store/
+rm -rf promtok_backend/ai_researcher/data/vector_store/
 
 # Remove processed files
 echo "Removing processed files..."
-rm -rf maestro_backend/ai_researcher/data/processed/
+rm -rf promtok_backend/ai_researcher/data/processed/
 
 # Remove old vector store wrapper files
 echo "Removing old vector store wrapper files..."
-cd maestro_backend/ai_researcher/core_rag/
+cd promtok_backend/ai_researcher/core_rag/
 
 # Keep only essential files
 rm -f vector_store.py
@@ -43,9 +43,9 @@ cd ../../..
 
 # Remove all migration files since we're starting fresh
 echo "Removing old migration files..."
-rm -f maestro_backend/database/migrations/*.py
+rm -f promtok_backend/database/migrations/*.py
 # Keep __init__.py if it exists
-touch maestro_backend/database/migrations/__init__.py
+touch promtok_backend/database/migrations/__init__.py
 
 echo "=== Cleanup complete ==="
 echo "Ready to build new system from scratch"

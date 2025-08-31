@@ -39,7 +39,7 @@ services:
 
   backend:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-backend
     container_name: promtok-backend
@@ -51,7 +51,7 @@ services:
       - ./maestro_model_cache:/root/.cache/huggingface
       - ./maestro_datalab_cache:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
     working_dir: /app
     environment:
       - MAX_WORKER_THREADS=${MAX_WORKER_THREADS:-10}
@@ -79,7 +79,7 @@ services:
 
   frontend:
     build:
-      context: ./maestro_frontend
+      context: ./promtok_frontend
       dockerfile: Dockerfile
     image: promtok-frontend
     container_name: promtok-frontend
@@ -95,7 +95,7 @@ services:
 
   doc-processor:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-doc-processor
     container_name: promtok-doc-processor
@@ -106,11 +106,11 @@ services:
       - ./maestro_model_cache:/root/.cache/huggingface
       - ./maestro_datalab_cache:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
     depends_on:
       - backend
     networks:
-      - maestro-network
+      - promtok-network
     environment:
       - TZ=${TZ:-UTC}
       - LOG_LEVEL=${LOG_LEVEL:-ERROR}
@@ -123,7 +123,7 @@ services:
 
   cli:
     build:
-      context: ./maestro_backend
+      context: ./promtok_backend
       dockerfile: Dockerfile
     image: promtok-cli
     container_name: promtok-cli
@@ -136,7 +136,7 @@ services:
       - ./maestro_model_cache:/root/.cache/huggingface
       - ./maestro_datalab_cache:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
     depends_on:
       - backend
     networks:
