@@ -4,9 +4,9 @@ services:
     image: pgvector/pgvector:pg15
     container_name: promtok-postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-maestro_db}
-      POSTGRES_USER: ${POSTGRES_USER:-maestro_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-maestro_password}
+      POSTGRES_DB: ${POSTGRES_DB:-promtok_db}
+      POSTGRES_USER: ${POSTGRES_USER:-promtok_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-promtok_password}
     volumes:
       - postgres-data:/var/lib/postgresql/data
       - ./init-db:/docker-entrypoint-initdb.d
@@ -16,7 +16,7 @@ services:
       - promtok-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-maestro_user} -d ${POSTGRES_DB:-maestro_db}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-promtok_user} -d ${POSTGRES_DB:-promtok_db}"]
       interval: 10s
       timeout: 5s
       retries: 5
