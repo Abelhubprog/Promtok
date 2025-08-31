@@ -3,16 +3,16 @@ Deploying PROMTOK on Railway
 This guide explains how to deploy PROMTOK’s backend and frontend to Railway using the provided Railway-specific Dockerfiles.
 
 Services
-- Backend: Python/FastAPI (CPU-only) using `maestro_backend/Dockerfile.railway`
-- Frontend: Vite build served by `serve` using `maestro_frontend/Dockerfile.railway`
+- Backend: Python/FastAPI (CPU-only) using `promtok_backend/Dockerfile.railway`
+- Frontend: Vite build served by `serve` using `promtok_frontend/Dockerfile.railway`
 - Database: Railway PostgreSQL (managed). Set `DATABASE_URL` in the backend environment.
 
 Steps
 1) Create a Railway project and add a PostgreSQL plugin.
 2) Add a new service → Deploy from GitHub repo (or from folder) and set:
    - Service name: promtok-backend
-   - Root directory: `maestro`
-   - Dockerfile path: `maestro_backend/Dockerfile.railway`
+   - Root directory: `promtok`
+   - Dockerfile path: `promtok_backend/Dockerfile.railway`
 3) Set backend environment variables:
    - `DATABASE_URL` (from Railway Postgres plugin)
    - `ADMIN_USERNAME` and `ADMIN_PASSWORD`
@@ -21,8 +21,8 @@ Steps
    - Optional CORS: `CORS_ALLOWED_ORIGINS` to your frontend domain, or `*` for testing
 4) Add another service for the frontend:
    - Service name: promtok-frontend
-   - Root directory: `maestro`
-   - Dockerfile path: `maestro_frontend/Dockerfile.railway`
+   - Root directory: `promtok`
+   - Dockerfile path: `promtok_frontend/Dockerfile.railway`
 5) Frontend environment variables (build-time):
    - `VITE_API_HTTP_URL` set to your backend public URL (e.g., `https://<backend-domain>`)
    - `VITE_API_WS_URL` set to backend websocket base (e.g., `wss://<backend-domain>`) if using websockets directly

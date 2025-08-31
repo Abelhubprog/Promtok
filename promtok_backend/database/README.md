@@ -173,13 +173,13 @@ fuser data/promtok.db
 sqlite3 data/promtok.db "SELECT * FROM migration_history;"
 
 # Manually mark as applied if needed
-sqlite3 data/maestro.db "INSERT INTO migration_history (version, applied_at) VALUES ('XXX', datetime('now'));"
+sqlite3 data/promtok.db "INSERT INTO migration_history (version, applied_at) VALUES ('XXX', datetime('now'));"
 ```
 
 #### 3. Corrupt Database
 ```bash
 # Check integrity
-sqlite3 data/maestro.db "PRAGMA integrity_check;"
+sqlite3 data/promtok.db "PRAGMA integrity_check;"
 
 # Backup and restore
 cp data/promtok.db data/promtok.db.backup

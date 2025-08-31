@@ -5,8 +5,8 @@
 # PROMTOK: Your Self-Hosted AI Research Assistant
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/murtaza-nasir/maestro.git)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://hub.docker.com/r/yourusername/maestro)
+[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/Abelhubprog/Promtok.git)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://hub.docker.com/r/yourusername/promtok)
 
 > **Version 0.1.4 Update (08/20/2025)**
 > 
@@ -36,7 +36,7 @@ PROMTOK streamlines the research process with a unified, chat-driven workflow. D
 <details>
   <summary><strong>Manage Your Document Library</strong></summary>
   <br>
-  <p>Upload and manage your PDF documents in a central library. MAESTRO's advanced Retrieval-Augmented Generation (RAG) pipeline is optimized for academic and technical papers, ensuring your AI agents have access to the right information.</p>
+  <p>Upload and manage your PDF documents in a central library. PROMTOK's advanced Retrieval-Augmented Generation (RAG) pipeline is optimized for academic and technical papers, ensuring your AI agents have access to the right information.</p>
   <p align="center">
     <img src="images/01-document-library.png" alt="Document Library" width="700"/>
   </p>
@@ -81,7 +81,7 @@ PROMTOK streamlines the research process with a unified, chat-driven workflow. D
 <details>
   <summary><strong>Follow the Agent's Research Path</strong></summary>
   <br>
-  <p>MAESTRO provides full transparency into the AI's process. You can see the research outline it develops and follow along as it explores different avenues of investigation.</p>
+  <p>PROMTOK provides full transparency into the AI's process. You can see the research outline it develops and follow along as it explores different avenues of investigation.</p>
   <p align="center">
     <img src="images/06-research-transparency.png" alt="Research Transparency" width="700"/>
   </p>
@@ -288,7 +288,7 @@ Access MAESTRO at **http://localhost**
     **Monitor the startup progress:**
     ```bash
     # Watch the backend logs
-    docker compose logs -f maestro-backend
+    docker compose logs -f promtok-backend
     
     # Wait for this message:
     # "INFO:     Application startup complete."
@@ -347,7 +347,7 @@ Access MAESTRO at **http://localhost**
     # or "Uvicorn running on http://0.0.0.0:8000"
     ```
 
-#### Access MAESTRO
+#### Access PROMTOK
 Once the backend shows "Application startup complete", access the web interface at the address shown by the setup script (default: `http://localhost`). 
 
 **Default Login:**
@@ -356,11 +356,11 @@ Once the backend shows "Application startup complete", access the web interface 
 
 **Important:** Change the default password immediately after your first login via Settings → Profile.
 
-For detailed instructions on configuring MAESTRO's settings and using all features, see the [USER_GUIDE.md](./USER_GUIDE.md).
+For detailed instructions on configuring PROMTOK's settings and using all features, see the [USER_GUIDE.md](./USER_GUIDE.md).
 
 ## Architecture & Networking
 
-MAESTRO now uses a **unified reverse proxy architecture** to eliminate CORS issues:
+PROMTOK now uses a **unified reverse proxy architecture** to eliminate CORS issues:
 
 - **Single Entry Point**: Everything accessible through one port (default: 80)
 - **No CORS Problems**: Frontend and backend served from the same origin
@@ -380,7 +380,7 @@ MAESTRO now uses a **unified reverse proxy architecture** to eliminate CORS issu
   ```powershell
   .\fix-line-endings.ps1
   docker compose down
-  docker compose build --no-cache maestro-backend
+  docker compose build --no-cache promtok-backend
   docker compose up -d
   ```
 
@@ -388,13 +388,13 @@ MAESTRO now uses a **unified reverse proxy architecture** to eliminate CORS issu
 - Reset the admin password using the built-in script:
   ```bash
   # Run the reset script (already in the container)
-  docker exec -it maestro-backend python reset_admin_password.py
+  docker exec -it promtok-backend python reset_admin_password.py
   
   # Or with a custom password:
-  docker exec -it maestro-backend python reset_admin_password.py YourNewPassword
+  docker exec -it promtok-backend python reset_admin_password.py YourNewPassword
   
   # Or using environment variable:
-  docker exec -it maestro-backend bash -c "ADMIN_PASSWORD=YourNewPassword python reset_admin_password.py"
+  docker exec -it promtok-backend bash -c "ADMIN_PASSWORD=YourNewPassword python reset_admin_password.py"
   ```
 
 **Using without a GPU?**
@@ -437,7 +437,7 @@ MAESTRO now uses a **unified reverse proxy architecture** to eliminate CORS issu
 
 ### GPU Support and Performance Optimization
 
-MAESTRO includes automatic GPU detection and configuration for optimal performance across different platforms.
+PROMTOK includes automatic GPU detection and configuration for optimal performance across different platforms.
 
 #### CPU-Only Mode
 
@@ -524,30 +524,30 @@ docker compose logs backend
   <summary><strong>Database Reset and Consistency Tools</strong></summary>
   <br>
   
-  MAESTRO uses PostgreSQL with pgvector extension for all data storage including vector embeddings. The system includes powerful CLI tools for database management and consistency checking.
+  PROMTOK uses PostgreSQL with pgvector extension for all data storage including vector embeddings. The system includes powerful CLI tools for database management and consistency checking.
 
   ### Quick Database Operations
   ```bash
   # Check database status and consistency
-  ./maestro-cli.sh reset-db --check
+  ./promtok-new-cli.sh reset-db --check
   
   # Get database statistics  
-  ./maestro-cli.sh reset-db --stats
+  ./promtok-new-cli.sh reset-db --stats
   
   # Reset all databases (with backup)
-  ./maestro-cli.sh reset-db --backup
+  ./promtok-new-cli.sh reset-db --backup
   ```
 
   ### Document Consistency Management
   ```bash
   # Check system-wide document consistency
-  python maestro_backend/cli_document_consistency.py system-status
+  python promtok_backend/cli_document_consistency.py system-status
   
   # Clean up orphaned documents
-  python maestro_backend/cli_document_consistency.py cleanup-all
+  python promtok_backend/cli_document_consistency.py cleanup-all
   
   # Check specific user's documents
-  python maestro_backend/cli_document_consistency.py check-user <user_id>
+  python promtok_backend/cli_document_consistency.py check-user <user_id>
   ```
 
   ### When to Use These Tools
@@ -561,7 +561,7 @@ docker compose logs backend
 
 ## Technical Overview
 
-MAESTRO is built on a modern, decoupled architecture:
+PROMTOK is built on a modern, decoupled architecture:
 
 *   **Backend**: A robust API built with **FastAPI** that handles user authentication, mission control, agentic logic, and the RAG pipeline.
 *   **Frontend**: A dynamic and responsive single-page application built with **React**, **Vite**, and **TypeScript**, using **Tailwind CSS** for styling.
@@ -586,11 +586,11 @@ If you choose to use SearXNG as your search provider, ensure your SearXNG instan
 search:
   format:
     - html
-    - json  # <- This line is required for MAESTRO integration
+    - json  # <- This line is required for PROMTOK integration
 ```
 
 **Available Search Categories:**
-MAESTRO supports the following SearXNG categories, which you can configure in the Settings > Search section:
+PROMTOK supports the following SearXNG categories, which you can configure in the Settings > Search section:
 - General (default)
 - Science
 - IT

@@ -1,6 +1,6 @@
-# MAESTRO: LLM Evaluation for Verifier Roles and Agent Performance
+# PROMTOK: LLM Evaluation for Verifier Roles and Agent Performance
 
-To make sure that the MAESTRO research framework produces high quality factual rep, we must thoroughly evaluate the performance of the LLMs in it. However, measuring factual consistency of complex summaries and synthesized reports written by AI is a difficult task in and of itself.
+To make sure that the PROMTOK research framework produces high quality factual rep, we must thoroughly evaluate the performance of the LLMs in it. However, measuring factual consistency of complex summaries and synthesized reports written by AI is a difficult task in and of itself.
 
 As such, as a preliminary step, we are attempting to find the most reliable LLMs to serve as impartial "judges" or "verifier models". **Currently, this verifier model or LLM-as-judge is not an active participant in the live MAESTRO research pipeline. Instead, this is a preliminary evaluation stage for now.** Our objective at this time is to find which LLMs are better at judging claims, summarizations, and the synthesis of information from multiple sources. These "best-in-class" verifier models will then be used to provide a baseline and validation for the outputs of the LLMs that *are* (or will be) part of the core research pipeline. We intend to integrate such verification capabilities in the MAESTRO workflow (e.g. in the Reflection Agent) directly in a future release.
 
@@ -67,7 +67,7 @@ The following table summarizes the performance of various LLMs in the note gener
 
 *Note: "aggregated" scores are based on the combination of the scores of the three verifier models. "Overall" scores are a 50-50 weighted average of the models performance in the "note" generation and "writing" synthesis stages.*
 
-## Recommendations for Agent Roles in MAESTRO
+## Recommendations for Agent Roles in PROMTOK
 
 Using our panel of verifier models gives us useful insights into how different LLMs are performing in the simulated research/writing tasks.
 
@@ -77,7 +77,7 @@ Using our panel of verifier models gives us useful insights into how different L
 *   **Cost-Effective Options:** `openai/gpt-4o-mini` seems to be a reasonable model, especially for simple planning tasks, and could be a reasonable candidate for the `FAST_LLM_PROVIDER` role in MAESTRO. Its overall score seems to indicate that it is a reasonable, low-cost option for less complicated tasks.
 *   **Difference of Opinion between Verifiers:** It is also interesting to see how the same generated content is scored by different verifier models. For example, on average, `meta-llama/llama-4-maverick` seems to assign higher scores than `anthropic/claude-3.7-sonnet`. This underscores the value of a verifier panel to help mitigate individual verifier blind-spots.
 
-**Recommendations for MAESTRO Agent Roles:**
+**Recommendations for PROMTOK Agent Roles:**
 
 MAESTRO has a configurable LLM roster with three levels defined in your `.env` file: `FAST_LLM_PROVIDER`, `MID_LLM_PROVIDER`, and `INTELLIGENT_LLM_PROVIDER`. This allows you to selectively assign different models—or the same model, if you wish—to different agent roles according to the complexity of their tasks and your cost considerations. While you are not required to use three different models in these levels, this structure allows you to have the flexibility to tailor the performance and budget to your needs. For users who wish to run models locally, we also provide self-hosted recommendations, which will require some hardware and setup on your end (e.g., via Ollama, vLLM, etc.).
 
