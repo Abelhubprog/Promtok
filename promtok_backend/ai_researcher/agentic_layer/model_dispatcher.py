@@ -439,7 +439,7 @@ class ModelDispatcher:
         # Only add OpenAI headers if the provider is OpenRouter
         if provider_name == "openrouter":
             request_params["extra_headers"] = {
-                "HTTP-Referer": "https://github.com/murtaza-nasir/maestro.git", 
+                "HTTP-Referer": "https://github.com/Abelhubprog/Promtok.git", 
                 "X-Title": "PROMTOK", 
             }
         if tools:
@@ -727,7 +727,7 @@ class ModelDispatcher:
         # Only add OpenAI headers if the provider is OpenRouter
         if provider_name == "openrouter":
             request_params["extra_headers"] = {
-                "HTTP-Referer": "https://github.com/murtaza-nasir/maestro.git", 
+                "HTTP-Referer": "https://github.com/Abelhubprog/Promtok.git", 
                 "X-Title": "PROMTOK", 
             }
         if tools:

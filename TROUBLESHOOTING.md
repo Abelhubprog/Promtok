@@ -185,7 +185,7 @@ docker compose up -d
 **Solution**: Reset the database (WARNING: Deletes all data!)
 ```bash
 docker compose down -v
-docker volume rm maestro_postgres-data maestro_maestro-data
+docker volume rm promtok_postgres-data promtok_promtok-data
 docker compose up -d
 ```
 
@@ -262,7 +262,7 @@ curl http://localhost:8000/health
 
 #### Access backend shell:
 ```bash
-docker exec -it maestro-backend bash
+docker exec -it promtok-backend bash
 ```
 
 ---

@@ -235,7 +235,7 @@ class BackgroundDocumentProcessor:
         import requests
         
         # The main backend service is available at this hostname in the Docker network
-        backend_url = "http://maestro-backend:8000/api/internal/document-progress"
+        backend_url = "http://promtok-backend:8000/api/internal/document-progress"
         
         try:
             # Add user_id to the update payload if it's not already there

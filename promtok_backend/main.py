@@ -16,7 +16,7 @@ setup_logging()  # Will use LOG_LEVEL environment variable
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="MAESTRO API",
+    title="PROMTOK API",
     description="AI Research Assistant API",
     version="2.0.0-alpha"
 )
@@ -230,7 +230,7 @@ async def shutdown_event():
 @app.get("/")
 def read_root():
     return {
-        "message": "MAESTRO API v2.0",
+        "message": "PROMTOK API v2.0",
         "status": "running",
         "docs": "/docs"
     }
