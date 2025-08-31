@@ -154,8 +154,8 @@ The Docker setup creates several mounted volumes to persist data:
 - `./pdfs`: Place your PDF files here for CLI ingestion
 - `./reports`: Output directory for research reports
 - `promtok-data`: Docker volume for vector store and processed data
-- `./maestro_model_cache`: Cache for Hugging Face embedding models (~2GB)
-- `./maestro_datalab_cache`: Cache for document processing models (~3GB)
+- `./promtok_model_cache`: Cache for Hugging Face embedding models (~2GB)
+- `./promtok_datalab_cache`: Cache for document processing models (~3GB)
 
 ## Model Caching & Performance Optimization
 
@@ -172,8 +172,8 @@ The Docker Compose configuration includes persistent volume mounts to cache mode
 
 ```yaml
 volumes:
-  - ./maestro_model_cache:/root/.cache/huggingface      # Embedding models
-  - ./maestro_datalab_cache:/root/.cache/datalab       # Document processing models
+  - ${MODEL_CACHE_DIR:-./promtok_model_cache}:/root/.cache/huggingface      # Embedding models
+  - ${DATA_CACHE_DIR:-./promtok_datalab_cache}:/root/.cache/datalab       # Document processing models
 ```
 
 ### First Run vs. Subsequent Runs
@@ -192,19 +192,19 @@ volumes:
 
 **View cache size:**
 ```bash
-du -sh maestro_model_cache maestro_datalab_cache
+du -sh promtok_model_cache promtok_datalab_cache
 ```
 
 **Clear cache (if needed):**
 ```bash
-rm -rf maestro_model_cache maestro_datalab_cache
+rm -rf promtok_model_cache promtok_datalab_cache
 docker compose down
 docker compose up --build
 ```
 
 **Backup cache (for offline deployment):**
 ```bash
-tar -czf promtok-models-cache.tar.gz maestro_model_cache maestro_datalab_cache
+tar -czf promtok-models-cache.tar.gz promtok_model_cache promtok_datalab_cache
 ```
 
 ### Performance Benefits

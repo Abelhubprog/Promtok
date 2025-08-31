@@ -48,8 +48,8 @@ services:
         condition: service_healthy
     volumes:
       - promtok-data:/app/ai_researcher/data
-      - ./maestro_model_cache:/root/.cache/huggingface
-      - ./maestro_datalab_cache:/root/.cache/datalab
+      - ${MODEL_CACHE_DIR:-./promtok_model_cache}:/root/.cache/huggingface
+      - ${DATA_CACHE_DIR:-./promtok_datalab_cache}:/root/.cache/datalab
       - ./reports:/app/reports
       - ./promtok_backend/data:/app/data
     working_dir: /app
@@ -103,8 +103,8 @@ services:
     working_dir: /app
     volumes:
       - promtok-data:/app/ai_researcher/data
-      - ./maestro_model_cache:/root/.cache/huggingface
-      - ./maestro_datalab_cache:/root/.cache/datalab
+      - ${MODEL_CACHE_DIR:-./promtok_model_cache}:/root/.cache/huggingface
+      - ${DATA_CACHE_DIR:-./promtok_datalab_cache}:/root/.cache/datalab
       - ./reports:/app/reports
       - ./promtok_backend/data:/app/data
     depends_on:
@@ -133,8 +133,8 @@ services:
     working_dir: /app
     volumes:
       - promtok-data:/app/ai_researcher/data
-      - ./maestro_model_cache:/root/.cache/huggingface
-      - ./maestro_datalab_cache:/root/.cache/datalab
+      - ${MODEL_CACHE_DIR:-./promtok_model_cache}:/root/.cache/huggingface
+      - ${DATA_CACHE_DIR:-./promtok_datalab_cache}:/root/.cache/datalab
       - ./reports:/app/reports
       - ./promtok_backend/data:/app/data
     depends_on:

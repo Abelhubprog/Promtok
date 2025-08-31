@@ -395,9 +395,9 @@ switch ($Command.ToLower()) {
         
         # Copy the reset script to the container
         Write-Info "Copying reset script to Docker container..."
-        $copyResult = docker cp reset_databases.py maestro-backend:/app/reset_databases.py 2>$null
+        $copyResult = docker cp reset_databases.py promtok-backend:/app/reset_databases.py 2>$null
         if ($LASTEXITCODE -ne 0) {
-            Write-Error "Failed to copy reset script to container. Is maestro-backend running?"
+            Write-Error "Failed to copy reset script to container. Is promtok-backend running?"
             Write-Info "Try starting the backend first: docker compose up -d backend"
             exit 1
         }
@@ -413,25 +413,25 @@ switch ($Command.ToLower()) {
         Write-Info "Executing database operations inside Docker container..."
         
         # Check if container is running
-        $containerRunning = docker ps --format '{{.Names}}' | Select-String "maestro-backend"
+        $containerRunning = docker ps --format '{{.Names}}' | Select-String "promtok-backend"
         if ($containerRunning) {
             # Container is running, use exec
-            docker exec -it maestro-backend $cmd
+            docker exec -it promtok-backend $cmd
         } else {
             # Container exists but not running, use run
             Write-Warning "Backend container is not running. Starting temporary container..."
             $composeCmd = Get-ComposeCommand
             docker run --rm -it `
-                -v maestro-data:/app/ai_researcher/data `
-                -v "./maestro_backend/data:/app/data" `
+                -v promtok-data:/app/ai_researcher/data `
+                -v "./promtok_backend/data:/app/data" `
                 -w /app `
-                maestro-backend `
+                promtok-backend `
                 $cmd
         }
         
         # Clean up - remove the script from container if it's running
         if ($containerRunning) {
-            docker exec maestro-backend rm -f /app/reset_databases.py 2>$null
+            docker exec promtok-backend rm -f /app/reset_databases.py 2>$null
         }
         
         if (-not $Stats -and -not $Check) {
