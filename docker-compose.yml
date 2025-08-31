@@ -146,7 +146,7 @@ services:
       - ${MODEL_CACHE_DIR:-./promtok_model_cache}:/root/.cache/huggingface
       - ${DATA_CACHE_DIR:-./promtok_datalab_cache}:/root/.cache/datalab
       - ./reports:/app/reports
-      - ./maestro_backend/data:/app/data
+      - ./promtok_backend/data:/app/data
       # Mount a directory for bulk PDF ingestion
       - ./pdfs:/app/pdfs  # Read-write mount for PDF files (allows deletion after processing)
     depends_on:

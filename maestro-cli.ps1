@@ -1,4 +1,4 @@
-#!/usr/bin/env pwsh
+contin#!/usr/bin/env pwsh
 
 # MAESTRO Direct CLI Helper Script for Windows PowerShell
 # This script provides direct document processing with live feedback
@@ -6,67 +6,67 @@
 param(
     [Parameter(Position=0)]
     [string]$Command,
-    
+
     [Parameter(Position=1)]
     [string]$Username,
-    
+
     [Parameter(Position=2)]
     [string]$Password,
-    
+
     [Parameter(Position=3)]
     [string]$GroupName,
-    
+
     [Parameter(Position=4)]
     [string]$PdfDirectory,
-    
+
     [Parameter(Position=5)]
     [string]$Query,
-    
+
     [Parameter()]
     [string]$FullName,
-    
+
     [Parameter()]
     [string]$Description,
-    
+
     [Parameter()]
     [string]$Group,
-    
+
     [Parameter()]
     [string]$Status,
-    
+
     [Parameter()]
     [string]$Limit,
-    
+
     [Parameter()]
     [string]$Device,
-    
+
     [Parameter()]
     [int]$BatchSize,
-    
+
     [Parameter()]
     [switch]$Admin,
-    
+
     [Parameter()]
     [switch]$ForceReembed,
-    
+
     [Parameter()]
     [switch]$DeleteAfterSuccess,
-    
+
     [Parameter()]
     [switch]$Confirm,
-    
+
     [Parameter()]
     [switch]$Backup,
-    
+
     [Parameter()]
     [switch]$Force,
-    
+
     [Parameter()]
     [switch]$Stats,
-    
+
     [Parameter()]
     [switch]$Check,
-    
+
     [Parameter()]
     [switch]$Help
 )
@@ -143,11 +143,11 @@ function Get-ComposeCommand {
 # Function to run direct CLI command
 function Invoke-DirectCLI {
     param([string[]]$Arguments)
-    
+
     if (-not (Test-DockerCompose)) {
         exit 1
     }
-    
+
     Start-BackendIfNeeded
     $composeCmd = Get-ComposeCommand
     $cmd = "$composeCmd --profile cli run --rm cli python cli_ingest.py"
@@ -251,58 +251,58 @@ switch ($Command.ToLower()) {
             Write-Host "Usage: .\maestro-cli.ps1 create-user <username> <password> [-FullName `"Name`"] [-Admin]"
             exit 1
         }
-        
+
         Write-Info "Creating user '$Username'..."
         $args = @("create-user", $Username, $Password)
         if ($FullName) { $args += "--full-name", $FullName }
         if ($Admin) { $args += "--admin" }
-        
+
         Invoke-DirectCLI $args
         Write-Success "User creation command completed"
     }
-    
+
     "create-group" {
         if (-not $Username -or -not $GroupName) {
             Write-Error "create-group requires username and group name"
             Write-Host "Usage: .\maestro-cli.ps1 create-group <username> <group_name> [-Description `"Description`"]"
             exit 1
         }
-        
+
         Write-Info "Creating group '$GroupName' for user '$Username'..."
         $args = @("create-group", $Username, $GroupName)
         if ($Description) { $args += "--description", $Description }
-        
+
         Invoke-DirectCLI $args
         Write-Success "Group creation command completed"
     }
-    
+
     "list-groups" {
         Write-Info "Listing document groups..."
         $args = @("list-groups")
         if ($Username) { $args += "--user", $Username }
-        
+
         Invoke-DirectCLI $args
     }
-    
+
     "ingest" {
         if (-not $Username -or -not $PdfDirectory) {
             Write-Error "ingest requires username and document_directory"
             Write-Host "Usage: .\maestro-cli.ps1 ingest <username> <document_directory> [-Group <group_id>] [-ForceReembed] [-Device <device>] [-DeleteAfterSuccess] [-BatchSize <num>]"
             exit 1
         }
-        
+
         # Check if document directory exists
         if (-not (Test-Path $PdfDirectory)) {
             Write-Error "Document directory '$PdfDirectory' does not exist"
             exit 1
         }
-        
+
         # Count supported document types
         $pdfFiles = Get-ChildItem -Path $PdfDirectory -Filter "*.pdf" -ErrorAction SilentlyContinue
         $docxFiles = Get-ChildItem -Path $PdfDirectory -Include "*.docx", "*.doc" -Recurse -ErrorAction SilentlyContinue
         $mdFiles = Get-ChildItem -Path $PdfDirectory -Include "*.md", "*.markdown" -Recurse -ErrorAction SilentlyContinue
         $totalFiles = $pdfFiles.Count + $docxFiles.Count + $mdFiles.Count
-        
+
         if ($totalFiles -eq 0) {
             Write-Warning "No supported document files found in '$PdfDirectory'"
             Write-Info "Supported formats: PDF, DOCX, DOC, MD, MARKDOWN"
@@ -322,10 +322,10 @@ switch ($Command.ToLower()) {
                 Write-Info "  - $($mdFiles.Count) Markdown files"
             }
         }
-        
+
         Write-Info "Starting DIRECT document processing for user '$Username'..."
         Write-Warning "This will process documents immediately with live feedback"
-        
+
         # Convert local path to container path
         $containerPath = "/app/documents"
         if ($PdfDirectory -eq "./documents" -or $PdfDirectory -eq "documents") {
@@ -340,7 +340,7 @@ switch ($Command.ToLower()) {
             Write-Warning "Converting relative path '$PdfDirectory' to '/app/documents'"
             $containerPath = "/app/documents"
         }
-        
+
         # Build arguments
         $args = @("ingest", $Username, $containerPath)
         if ($Group) { $args += "--group", $Group }
@@ -348,21 +348,21 @@ switch ($Command.ToLower()) {
         if ($Device) { $args += "--device", $Device }
         if ($DeleteAfterSuccess) { $args += "--delete-after-success" }
         if ($BatchSize) { $args += "--batch-size", $BatchSize }
-        
+
         Invoke-DirectCLI $args
         Write-Success "Direct document processing completed"
         Write-Info "All documents are now immediately available for search."
     }
-    
+
     "status" {
         Write-Info "Checking document processing status..."
         $args = @("status")
         if ($Username) { $args += "--user", $Username }
         if ($Group) { $args += "--group", $Group }
-        
+
         Invoke-DirectCLI $args
     }
-    
+
     "cleanup" {
         Write-Info "Starting document cleanup..."
         $args = @("cleanup")
@@ -370,29 +370,29 @@ switch ($Command.ToLower()) {
         if ($Status) { $args += "--status", $Status }
         if ($Group) { $args += "--group", $Group }
         if ($Confirm) { $args += "--confirm" }
-        
+
         Invoke-DirectCLI $args
         Write-Success "Cleanup command completed"
     }
-    
+
     "search" {
         if (-not $Username -or -not $Query) {
             Write-Error "search requires username and query"
             Write-Host "Usage: .\maestro-cli.ps1 search <username> <query> [-Limit <num>]"
             exit 1
         }
-        
+
         Write-Info "Searching documents for user '$Username'..."
         $args = @("search", $Username, $Query)
         if ($Limit) { $args += "--limit", $Limit }
-        
+
         Invoke-DirectCLI $args
     }
-    
+
     "reset-db" {
         Write-Warning "Database reset operates on ALL databases simultaneously!"
         Write-Info "This ensures data consistency across all storage systems."
-        
+
         # Copy the reset script to the container
         Write-Info "Copying reset script to Docker container..."
         $copyResult = docker cp reset_databases.py promtok-backend:/app/reset_databases.py 2>$null
@@ -401,17 +401,17 @@ switch ($Command.ToLower()) {
             Write-Info "Try starting the backend first: docker compose up -d backend"
             exit 1
         }
-        
+
         # Build the command based on arguments
         $cmd = "python /app/reset_databases.py"
         if ($Backup) { $cmd += " --backup" }
         if ($Force) { $cmd += " --force" }
         if ($Stats) { $cmd += " --stats" }
         if ($Check) { $cmd += " --check" }
-        
+
         # Execute the reset script inside the container
         Write-Info "Executing database operations inside Docker container..."
-        
+
         # Check if container is running
         $containerRunning = docker ps --format '{{.Names}}' | Select-String "promtok-backend"
         if ($containerRunning) {
@@ -428,22 +428,22 @@ switch ($Command.ToLower()) {
                 promtok-backend `
                 $cmd
         }
-        
+
         # Clean up - remove the script from container if it's running
         if ($containerRunning) {
             docker exec promtok-backend rm -f /app/reset_databases.py 2>$null
         }
-        
+
         if (-not $Stats -and -not $Check) {
             Write-Success "Database reset completed successfully!"
             Write-Info "Recommendation: Restart Docker containers for clean state:"
             Write-Info "  docker compose down && docker compose up -d"
         }
     }
-    
+
     default {
         Write-Error "Unknown command: $Command"
         Write-Host "Use '.\maestro-cli.ps1 help' to see available commands"
         exit 1
     }
-} 
+}

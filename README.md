@@ -610,27 +610,27 @@ For advanced users and administrators, a powerful **Command Line Interface (CLI)
 
 **Linux/macOS:**
 ```bash
-./maestro-cli.sh help
-./maestro-cli.sh create-user researcher mypass123
-./maestro-cli.sh ingest researcher ./documents
+./promtok-cli.sh help
+./promtok-cli.sh create-user researcher mypass123
+./promtok-cli.sh ingest researcher ./documents
 ```
 
 **Windows:**
 ```powershell
 # Using PowerShell (recommended)
-.\maestro-cli.ps1 help
-.\maestro-cli.ps1 create-user researcher mypass123
-.\maestro-cli.ps1 ingest researcher .\documents
+.\promtok-cli.ps1 help
+.\promtok-cli.ps1 create-user researcher mypass123
+.\promtok-cli.ps1 ingest researcher .\documents
 
 # Or using Command Prompt
-maestro-cli.bat help
-maestro-cli.bat create-user researcher mypass123
-maestro-cli.bat ingest researcher .\documents
+promtok-cli.bat help
+promtok-cli.bat create-user researcher mypass123
+promtok-cli.bat ingest researcher .\documents
 ```
 
 ## Documentation
 
-- [USER_GUIDE.md](./USER_GUIDE.md) - Detailed guide for configuring and using MAESTRO's features
+- [USER_GUIDE.md](./USER_GUIDE.md) - Detailed guide for configuring and using PROMTOK's features
 - [CLI_GUIDE.md](./CLI_GUIDE.md) - Comprehensive command-line interface documentation
 - [DOCKER.md](./DOCKER.md) - Complete Docker setup and deployment instructions
 - [WINDOWS_SETUP.md](./WINDOWS_SETUP.md) - Windows-specific installation guide
@@ -639,7 +639,7 @@ maestro-cli.bat ingest researcher .\documents
 
 This project is **dual-licensed**:
 
-1.  **GNU Affero General Public License v3.0 (AGPLv3)**: MAESTRO is offered under the AGPLv3 as its open-source license.
+1.  **GNU Affero General Public License v3.0 (AGPLv3)**: PROMTOK is offered under the AGPLv3 as its open-source license.
 2.  **Commercial License**: For users or organizations who cannot comply with the AGPLv3, a separate commercial license is available. Please contact the maintainers for more details.
 
 ## Contributing

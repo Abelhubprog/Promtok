@@ -440,7 +440,7 @@ class ModelDispatcher:
         if provider_name == "openrouter":
             request_params["extra_headers"] = {
                 "HTTP-Referer": "https://github.com/murtaza-nasir/maestro.git", 
-                "X-Title": "MAESTRO", 
+                "X-Title": "PROMTOK", 
             }
         if tools:
             request_params["tools"] = tools
@@ -728,7 +728,7 @@ class ModelDispatcher:
         if provider_name == "openrouter":
             request_params["extra_headers"] = {
                 "HTTP-Referer": "https://github.com/murtaza-nasir/maestro.git", 
-                "X-Title": "MAESTRO", 
+                "X-Title": "PROMTOK", 
             }
         if tools:
             request_params["tools"] = tools

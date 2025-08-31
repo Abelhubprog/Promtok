@@ -1,14 +1,14 @@
-# Database Management and Reset Guide for Maestro
+# Database Management and Reset Guide for Promtok
 
 ## Overview
 
-This guide covers database management tools for the Maestro application, including full database resets and document consistency management across the dual-database architecture.
+This guide covers database management tools for the Promtok application, including full database resets and document consistency management across the dual-database architecture.
 
 ## ⚠️ CRITICAL: Data Synchronization
 
-**All databases MUST be reset together!** The Maestro system uses three tightly-coupled storage systems:
+**All databases MUST be reset together!** The Promtok system uses three tightly-coupled storage systems:
 
-1. **Main Database** (`maestro_backend/data/maestro.db`) - User accounts, chats, document records
+1. **Main Database** (`promtok_backend/data/promtok.db`) - User accounts, chats, document records
 2. **AI Database** (`ai_researcher/data/processed/metadata.db`) - Extracted document metadata  
 3. **Vector Store** (`ai_researcher/data/vector_store/`) - Document embeddings and chunks
 
@@ -17,38 +17,38 @@ This guide covers database management tools for the Maestro application, includi
 - Orphaned data causes search failures and UI inconsistencies  
 - Partial resets can corrupt the document processing pipeline
 
-## Usage (Recommended - Using Maestro CLI)
+## Usage (Recommended - Using Promtok CLI)
 
-The easiest way is to use the extended Maestro CLI:
+The easiest way is to use the extended Promtok CLI:
 
 ### 1. Check Current Database Status
 ```bash
-./maestro-cli.sh reset-db --stats
+./promtok-cli.sh reset-db --stats
 ```
 
 ### 2. Check Data Consistency
 ```bash
-./maestro-cli.sh reset-db --check
+./promtok-cli.sh reset-db --check
 ```
 
 ### 3. Reset All Databases (with backup)
 ```bash
-./maestro-cli.sh reset-db --backup
+./promtok-cli.sh reset-db --backup
 ```
 
 ### 4. Force Reset (skip confirmation)
 ```bash
-./maestro-cli.sh reset-db --force
+./promtok-cli.sh reset-db --force
 ```
 
 ### 5. Get Help
 ```bash
-./maestro-cli.sh reset-db --help
+./promtok-cli.sh reset-db --help
 ```
 
 ## Document Consistency Management Tools
 
-In addition to full database resets, MAESTRO includes dedicated tools for maintaining document consistency across the dual-database architecture.
+In addition to full database resets, PROMTOK includes dedicated tools for maintaining document consistency across the dual-database architecture.
 
 ### CLI Document Consistency Tool
 
@@ -57,16 +57,16 @@ For granular document management, use the CLI consistency tool:
 #### Individual Document Operations
 ```bash
 # Check specific document consistency across all systems
-python maestro_backend/cli_document_consistency.py check-document <doc_id> <user_id>
+python promtok_backend/cli_document_consistency.py check-document <doc_id> <user_id>
 
 # Clean up specific orphaned document
-python maestro_backend/cli_document_consistency.py cleanup-document <doc_id> <user_id>
+python promtok_backend/cli_document_consistency.py cleanup-document <doc_id> <user_id>
 ```
 
 #### User-Level Operations
 ```bash
 # Check all documents for a specific user
-python maestro_backend/cli_document_consistency.py check-user <user_id>
+python promtok_backend/cli_document_consistency.py check-user <user_id>
 
 # Clean up all orphaned documents for a user
 python maestro_backend/cli_document_consistency.py cleanup-user <user_id>
@@ -75,7 +75,7 @@ python maestro_backend/cli_document_consistency.py cleanup-user <user_id>
 #### System-Wide Operations
 ```bash
 # Get overall system consistency status
-python maestro_backend/cli_document_consistency.py system-status
+python promtok_backend/cli_document_consistency.py system-status
 
 # Perform system-wide cleanup of orphaned documents
 python maestro_backend/cli_document_consistency.py cleanup-all
@@ -83,7 +83,7 @@ python maestro_backend/cli_document_consistency.py cleanup-all
 
 ### Automatic Consistency Monitoring
 
-MAESTRO includes built-in monitoring that runs automatically:
+PROMTOK includes built-in monitoring that runs automatically:
 
 - **Frequency**: Every 60 minutes (configurable)
 - **Scope**: All users and document types
@@ -113,27 +113,27 @@ docker compose up -d backend
 
 ### 2. Copy Reset Script
 ```bash
-docker cp reset_databases.py maestro-backend:/app/
+docker cp reset_databases.py promtok-backend:/app/
 ```
 
 ### 3. Run Reset Inside Container
 ```bash
 # Check stats
-docker exec -it maestro-backend python reset_databases.py --stats
+docker exec -it promtok-backend python reset_databases.py --stats
 
 # Check consistency  
-docker exec -it maestro-backend python reset_databases.py --check
+docker exec -it promtok-backend python reset_databases.py --check
 
 # Reset with backup
-docker exec -it maestro-backend python reset_databases.py --backup
+docker exec -it promtok-backend python reset_databases.py --backup
 
 # Force reset
-docker exec -it maestro-backend python reset_databases.py --force
+docker exec -it promtok-backend python reset_databases.py --force
 ```
 
 ### 4. Cleanup
 ```bash
-docker exec maestro-backend rm /app/reset_databases.py
+docker exec promtok-backend rm /app/reset_databases.py
 ```
 
 ## What Gets Reset
@@ -172,18 +172,18 @@ docker compose up -d
 
 ### 2. Re-create User Accounts
 ```bash
-./maestro-cli.sh create-user researcher password123 --full-name "Research User"
+./promtok-cli.sh create-user researcher password123 --full-name "Research User"
 ```
 
 ### 3. Re-upload Documents
 ```bash
-./maestro-cli.sh ingest researcher ./pdfs
+./promtok-cli.sh ingest researcher ./pdfs
 ```
 
 ### 4. Verify Everything Works
 ```bash
-./maestro-cli.sh reset-db --stats
-./maestro-cli.sh reset-db --check
+./promtok-cli.sh reset-db --stats
+./promtok-cli.sh reset-db --check
 ```
 
 ## Backup and Recovery
@@ -197,10 +197,10 @@ Using `--backup` flag creates timestamped backups in `./backups/`:
 ### Manual Backup (Before Reset)
 ```bash
 # Backup main database
-docker exec maestro-backend cp /app/data/maestro.db /app/maestro_backup.db
+docker exec promtok-backend cp /app/data/promtok.db /app/promtok_backup.db
 
 # Copy backups out of container
-docker cp maestro-backend:/app/maestro_backup.db ./maestro_backup.db
+docker cp promtok-backend:/app/promtok_backup.db ./promtok_backup.db
 ```
 
 ### Recovery from Backup
@@ -209,7 +209,7 @@ docker cp maestro-backend:/app/maestro_backup.db ./maestro_backup.db
 docker compose down
 
 # Restore main database
-docker cp ./maestro_backup.db maestro-backend:/app/data/maestro.db
+docker cp ./promtok_backup.db promtok-backend:/app/data/promtok.db
 
 # Start containers
 docker compose up -d
@@ -232,7 +232,7 @@ docker compose ps
 docker info
 
 # Run with sudo if needed
-sudo ./maestro-cli.sh reset-db --stats
+sudo ./promtok-cli.sh reset-db --stats
 ```
 
 ### Data Inconsistencies Detected
@@ -243,13 +243,13 @@ If `--check` shows inconsistencies, this indicates:
 
 **Solution**: Run full reset to restore consistency:
 ```bash
-./maestro-cli.sh reset-db --backup
+./promtok-cli.sh reset-db --backup
 ```
 
 ### Reset Failures
 If reset fails partway through:
 1. Check Docker container logs: `docker compose logs backend`
-2. Manually complete the reset: `docker compose down && docker volume rm maestro_maestro-data`
+2. Manually complete the reset: `docker compose down && docker volume rm promtok_promtok-data`
 3. Restart fresh: `docker compose up -d`
 
 ## Best Practices
@@ -286,13 +286,13 @@ If reset fails partway through:
 
 ### Host System (Mounted)
 ```
-maestro/
-├── maestro_backend/data/maestro.db     # Main database (bind mount)
-└── (maestro-data volume)/              # AI researcher data (Docker volume)
+Promtok/
+├── promtok_backend/data/promtok.db     # Main database (bind mount)
+└── (promtok-data volume)/              # AI researcher data (Docker volume)
 ```
 
 ## Related Documentation
 
 - [Database Architecture](docs/DATABASE_ARCHITECTURE.md) - Complete system architecture
 - [CLAUDE.md](CLAUDE.md) - AI assistant reference
-- [Database README](maestro_backend/database/README.md) - Database module guide
+- [Database README](promtok_backend/database/README.md) - Database module guide

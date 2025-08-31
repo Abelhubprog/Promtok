@@ -158,7 +158,7 @@ services:
   #   volumes:
   #     - ollama-data:/root/.ollama
   #   networks:
-  #     - maestro-network
+  #     - promtok-network
   #   restart: unless-stopped
 
 volumes:
