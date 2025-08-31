@@ -1,6 +1,6 @@
 contin#!/usr/bin/env pwsh
 
-# MAESTRO Direct CLI Helper Script for Windows PowerShell
+# PROMTOK Direct CLI Helper Script for Windows PowerShell
 # This script provides direct document processing with live feedback
 
 param(
@@ -157,12 +157,12 @@ function Invoke-DirectCLI {
 # Help function
 function Show-Help {
     @"
-MAESTRO Direct CLI Helper Script for Windows PowerShell
+PROMTOK Direct CLI Helper Script for Windows PowerShell
 
 This tool provides DIRECT document processing with live feedback, bypassing the background queue.
 Documents are processed synchronously with real-time progress updates.
 
-Usage: .\maestro-cli.ps1 <command> [options]
+Usage: .\promtok-ws-cli.ps1 <command> [options]
 
 Commands:
   create-user <username> <password> [-FullName "Name"] [-Admin]
@@ -215,26 +215,26 @@ Key Differences from Regular CLI:
 
 Examples:
   # Create a user and group
-  .\maestro-cli.ps1 create-user researcher mypass123 -FullName "Research User"
-  .\maestro-cli.ps1 create-group researcher "AI Papers" -Description "Machine Learning Research"
+  .\promtok-ws-cli.ps1 create-user researcher mypass123 -FullName "Research User"
+  .\promtok-ws-cli.ps1 create-group researcher "AI Papers" -Description "Machine Learning Research"
 
   # Direct document processing with live feedback (no group)
-  .\maestro-cli.ps1 ingest researcher ./documents
+  .\promtok-ws-cli.ps1 ingest researcher ./documents
 
   # Process with specific group
-  .\maestro-cli.ps1 ingest researcher ./documents -Group GROUP_ID
+  .\promtok-ws-cli.ps1 ingest researcher ./documents -Group GROUP_ID
 
   # Process with specific GPU device
-  .\maestro-cli.ps1 ingest researcher ./documents -Device cuda:0
+  .\promtok-ws-cli.ps1 ingest researcher ./documents -Device cuda:0
 
   # Force re-processing of existing documents
-  .\maestro-cli.ps1 ingest researcher ./documents -ForceReembed
+  .\promtok-ws-cli.ps1 ingest researcher ./documents -ForceReembed
 
   # Check status
-  .\maestro-cli.ps1 status -Username researcher
+  .\promtok-ws-cli.ps1 status -Username researcher
 
 For more detailed help on any command:
-  .\maestro-cli.ps1 <command> -Help
+  .\promtok-ws-cli.ps1 <command> -Help
 "@
 }
 
@@ -248,7 +248,7 @@ switch ($Command.ToLower()) {
     "create-user" {
         if (-not $Username -or -not $Password) {
             Write-Error "create-user requires username and password"
-            Write-Host "Usage: .\maestro-cli.ps1 create-user <username> <password> [-FullName `"Name`"] [-Admin]"
+            Write-Host "Usage: .\promtok-ws-cli.ps1 create-user <username> <password> [-FullName `"Name`"] [-Admin]"
             exit 1
         }
 
@@ -264,7 +264,7 @@ switch ($Command.ToLower()) {
     "create-group" {
         if (-not $Username -or -not $GroupName) {
             Write-Error "create-group requires username and group name"
-            Write-Host "Usage: .\maestro-cli.ps1 create-group <username> <group_name> [-Description `"Description`"]"
+            Write-Host "Usage: .\promtok-ws-cli.ps1 create-group <username> <group_name> [-Description `"Description`"]"
             exit 1
         }
 
@@ -287,7 +287,7 @@ switch ($Command.ToLower()) {
     "ingest" {
         if (-not $Username -or -not $PdfDirectory) {
             Write-Error "ingest requires username and document_directory"
-            Write-Host "Usage: .\maestro-cli.ps1 ingest <username> <document_directory> [-Group <group_id>] [-ForceReembed] [-Device <device>] [-DeleteAfterSuccess] [-BatchSize <num>]"
+            Write-Host "Usage: .\promtok-ws-cli.ps1 ingest <username> <document_directory> [-Group <group_id>] [-ForceReembed] [-Device <device>] [-DeleteAfterSuccess] [-BatchSize <num>]"
             exit 1
         }
 
@@ -378,7 +378,7 @@ switch ($Command.ToLower()) {
     "search" {
         if (-not $Username -or -not $Query) {
             Write-Error "search requires username and query"
-            Write-Host "Usage: .\maestro-cli.ps1 search <username> <query> [-Limit <num>]"
+            Write-Host "Usage: .\promtok-ws-cli.ps1 search <username> <query> [-Limit <num>]"
             exit 1
         }
 
@@ -443,7 +443,7 @@ switch ($Command.ToLower()) {
 
     default {
         Write-Error "Unknown command: $Command"
-        Write-Host "Use '.\maestro-cli.ps1 help' to see available commands"
+        Write-Host "Use '.\promtok-ws-cli.ps1 help' to see available commands"
         exit 1
     }
 }

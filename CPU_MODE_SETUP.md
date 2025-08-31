@@ -1,6 +1,6 @@
 # CPU Mode Setup Guide for AMD Systems
 
-This guide explains how to configure Maestro to run in CPU-only mode, which is particularly useful for AMD GPU systems without ROCm support or systems with limited GPU resources.
+This guide explains how to configure Promtok to run in CPU-only mode, which is particularly useful for AMD GPU systems without ROCm support or systems with limited GPU resources.
 
 ## Quick Start
 
@@ -156,7 +156,7 @@ We're working on:
 
 If you encounter issues with CPU mode:
 
-1. Check the [GitHub Issues](https://github.com/murtaza-nasir/maestro/issues)
+1. Check the [GitHub Issues](https://github.com/Abelhubprog/Promtok/issues)
 2. Create a new issue with:
    - Your system specifications (CPU, RAM, OS)
    - The error messages you're seeing

@@ -11,9 +11,9 @@ docker-compose down
 
 # Remove old SQLite database
 echo "Removing old SQLite database..."
-rm -f data/maestro.db
-rm -f data/maestro.db-journal
-rm -f data/maestro.db-wal
+rm -f data/promtok.db
+rm -f data/promtok.db-journal
+rm -f data/promtok.db-wal
 
 # Remove old vector store
 echo "Removing old ChromaDB vector store..."

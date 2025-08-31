@@ -1,6 +1,6 @@
-# MAESTRO Windows Setup Guide
+# PROMTOK Windows Setup Guide
 
-This guide will help you set up and run MAESTRO on Windows systems.
+This guide will help you set up and run PROMTOK on Windows systems.
 
 ## Prerequisites
 
@@ -22,12 +22,12 @@ This guide will help you set up and run MAESTRO on Windows systems.
 ### 1. Clone the Repository
 ```powershell
 # Using PowerShell (recommended)
-git clone https://github.com/murtaza-nasir/maestro.git
-cd maestro
+git clone https://github.com/Abelhubprog/Promtok.git
+cd promtok
 
 # Or using Command Prompt
-git clone https://github.com/murtaza-nasir/maestro.git
-cd maestro
+git clone https://github.com/Abelhubprog/Promtok.git
+cd promtok
 ```
 
 ### 2. Environment Setup
@@ -52,7 +52,7 @@ copy .env.example .env
 notepad .env
 ```
 
-### 3. Start MAESTRO
+### 3. Start PROMTOK
 
 #### For Systems with NVIDIA GPUs
 ```powershell
@@ -92,27 +92,27 @@ docker compose up -d doc-processor
 
 ## CLI Operations
 
-MAESTRO provides Windows-compatible CLI tools for document management:
+PROMTOK provides Windows-compatible CLI tools for document management:
 
 ### Using PowerShell Script (Recommended)
 ```powershell
 # Show help
-.\maestro-cli.ps1 help
+.\promtok-cli.ps1 help
 
 # Create a user
-.\maestro-cli.ps1 create-user researcher mypass123 -FullName "Research User"
+.\promtok-cli.ps1 create-user researcher mypass123 -FullName "Research User"
 
 # Create a document group
-.\maestro-cli.ps1 create-group researcher "AI Papers" -Description "Machine Learning Research"
+.\promtok-cli.ps1 create-group researcher "AI Papers" -Description "Machine Learning Research"
 
 # Process PDF documents
-.\maestro-cli.ps1 ingest researcher ./pdfs
+.\promtok-cli.ps1 ingest researcher ./pdfs
 
 # Check status
-.\maestro-cli.ps1 status -Username researcher
+.\promtok-cli.ps1 status -Username researcher
 
 # Search documents
-.\maestro-cli.ps1 search researcher "machine learning" -Limit 10
+.\promtok-cli.ps1 search researcher "machine learning" -Limit 10
 ```
 
 
@@ -125,7 +125,7 @@ The main configuration file is `.env`, created from `.env.example`. Key settings
 #### Basic Configuration
 ```env
 # Main application port (the only port you need to configure)
-MAESTRO_PORT=80  # Change this if port 80 is in use
+PROMTOK_PORT=80  # Change this if port 80 is in use
 
 # Timezone configuration
 TZ=America/Chicago
@@ -153,9 +153,9 @@ FORCE_CPU_MODE=true  # Uncomment to disable GPU
 #### Database Configuration
 ```env
 # PostgreSQL settings (auto-configured by setup script)
-POSTGRES_USER=maestro_user
+POSTGRES_USER=promtok_user
 POSTGRES_PASSWORD=secure_generated_password
-POSTGRES_DB=maestro_db
+POSTGRES_DB=promtok_db
 ```
 
 ### GPU Support
@@ -182,7 +182,7 @@ To enable GPU acceleration on Windows:
 
 # Then rebuild the backend:
 docker compose down
-docker compose build --no-cache maestro-backend
+docker compose build --no-cache promtok-backend
 docker compose up -d
 ```
 
@@ -203,7 +203,7 @@ If port 80 is already in use:
 netstat -ano | findstr :80
 
 # Change port in .env file
-MAESTRO_PORT=8080  # or any available port
+PROMTOK_PORT=8080  # or any available port
 ```
 
 #### 4. Permission Issues
@@ -252,18 +252,18 @@ docker compose --profile cli run --rm cli python cli_ingest.py --help
 ## File Structure
 
 ```
-maestro/
-├── maestro-cli.ps1          # Windows PowerShell CLI script
+promtok/
+├── promtok-cli.ps1          # Windows PowerShell CLI script
 ├── setup-env.ps1            # Windows PowerShell setup script
 ├── fix-line-endings.ps1     # Windows line ending fix script
 ├── .env.example             # Environment template with all options
 ├── .env                     # Your environment configuration (created from .env.example)
 ├── docker-compose.yml       # Main Docker services configuration
 ├── docker-compose.cpu.yml   # CPU-only configuration
-├── maestro_backend/
+├── promtok_backend/
 │   ├── data/                # Persistent data storage
 │   └── Dockerfile           # Backend container definition
-├── maestro_frontend/
+├── promtok_frontend/
 │   └── Dockerfile           # Frontend container definition
 ├── nginx/                   # Reverse proxy configuration
 │   └── nginx.conf           # Routing rules
@@ -311,7 +311,7 @@ For additional help:
 2. Review [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for common issues and solutions
 3. Review [DOCKER.md](DOCKER.md) for Docker-specific details
 4. Check [USER_GUIDE.md](USER_GUIDE.md) for detailed configuration instructions
-5. Open an issue on [GitHub](https://github.com/murtaza-nasir/maestro/issues) for bugs or feature requests
+5. Open an issue on [GitHub](https://github.com/Abelhubprog/Promtok/issues) for bugs or feature requests
 
 ## Windows-Specific Notes
 

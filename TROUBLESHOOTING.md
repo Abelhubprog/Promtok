@@ -1,4 +1,4 @@
-# MAESTRO Troubleshooting Guide
+# PROMTOK Troubleshooting Guide
 
 ## Common Issues and Solutions
 
@@ -10,13 +10,13 @@
 **Solution**: Reset the admin password
 ```bash
 # Run the reset script (already in the container)
-docker exec -it maestro-backend python reset_admin_password.py
+docker exec -it promtok-backend python reset_admin_password.py
 
 # Or with a custom password:
-docker exec -it maestro-backend python reset_admin_password.py YourNewPassword
+docker exec -it promtok-backend python reset_admin_password.py YourNewPassword
 
 # Or using environment variable:
-docker exec -it maestro-backend bash -c "ADMIN_PASSWORD=YourNewPassword python reset_admin_password.py"
+docker exec -it promtok-backend bash -c "ADMIN_PASSWORD=YourNewPassword python reset_admin_password.py"
 ```
 
 **Alternative**: Complete database reset (WARNING: Deletes all data!)
@@ -39,7 +39,7 @@ docker compose up -d
 
 # Rebuild and restart
 docker compose down
-docker compose build --no-cache maestro-backend
+docker compose build --no-cache promtok-backend
 docker compose up -d
 ```
 
@@ -68,7 +68,7 @@ docker compose -f docker-compose.cpu.yml down
 **Solution**: Wait for startup to complete
 ```bash
 # Monitor the backend logs
-docker compose logs -f maestro-backend
+docker compose logs -f promtok-backend
 
 # Wait for this message:
 # "INFO:     Application startup complete."
@@ -225,10 +225,10 @@ docker compose up --build -d
 docker compose down
 
 # Remove specific containers
-docker rm -f maestro-backend maestro-frontend maestro-nginx maestro-postgres
+docker rm -f promtok-backend promtok-frontend promtok-nginx promtok-postgres
 
 # Remove volumes
-docker volume rm maestro_postgres-data maestro_maestro-data
+docker volume rm promtok_postgres-data promtok_promtok-data
 
 # Start fresh
 docker compose up -d
@@ -252,7 +252,7 @@ docker compose logs frontend
 
 #### Check database users:
 ```bash
-docker exec -it postgres psql -U maestro_user -d maestro_db -c "SELECT id, username, email FROM users;"
+docker exec -it postgres psql -U promtok_user -d promtok_db -c "SELECT id, username, email FROM users;"
 ```
 
 #### Test backend health:
@@ -274,7 +274,7 @@ If these solutions don't resolve your issue:
 1. **Collect diagnostic information:**
 ```bash
 # Save logs
-docker compose logs > maestro-logs.txt
+docker compose logs > promtok-logs.txt
 
 # System information
 docker version > system-info.txt
@@ -282,7 +282,7 @@ docker compose version >> system-info.txt
 ```
 
 2. **Report the issue:**
-- GitHub Issues: https://github.com/murtaza-nasir/maestro.git
+- GitHub Issues: https://github.com/Abelhubprog/Promtok/issues
 - Include:
   - Error messages
   - Log files
@@ -300,16 +300,16 @@ If all else fails, perform a complete reset:
 docker compose down -v --remove-orphans
 
 # Remove all maestro images
-docker images | grep maestro | awk '{print $3}' | xargs docker rmi -f
+docker images | grep promtok | awk '{print $3}' | xargs docker rmi -f
 
 # Clean Docker system
 docker system prune -a --volumes
 
 # Clone fresh repository
 cd ..
-rm -rf maestro
-git clone https://github.com/murtaza-nasir/maestro.git
-cd maestro
+rm -rf promtok
+git clone https://github.com/Abelhubprog/Promtok.git
+cd promtok
 
 # Start fresh
 ./setup-env.sh  # or setup-env.ps1 on Windows

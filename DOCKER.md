@@ -244,7 +244,7 @@ The CLI provides direct document processing with real-time progress updates, sup
 
 ## Using the Web Interface
 
-The primary way to use MAESTRO is through the web interface:
+The primary way to use PROMTOK is through the web interface:
 
 1. Start the application:
    ```bash
@@ -324,7 +324,7 @@ If CLI commands fail:
 
 ### Reverse Proxy Timeout Issues
 
-If you're running MAESTRO behind a reverse proxy (like nginx, Apache, or a cloud load balancer) and experiencing 504 Gateway Timeout errors during long operations (searches, document processing, etc.), you need to increase the timeout settings in your reverse proxy configuration.
+If you're running PROMTOK behind a reverse proxy (like nginx, Apache, or a cloud load balancer) and experiencing 504 Gateway Timeout errors during long operations (searches, document processing, etc.), you need to increase the timeout settings in your reverse proxy configuration.
 
 #### For nginx:
 
@@ -382,7 +382,7 @@ If using nginx Proxy Manager:
 - **Google Cloud Load Balancer**: Configure backend service timeout to 600 seconds
 - **Azure Application Gateway**: Set request timeout to 600 seconds in backend settings
 
-**Note**: The default timeout for most reverse proxies is 60 seconds, which is too short for MAESTRO's AI-powered operations that can take several minutes to complete. The application handles these timeouts gracefully, but increasing the limits provides a better user experience.
+**Note**: The default timeout for most reverse proxies is 60 seconds, which is too short for PROMTOK's AI-powered operations that can take several minutes to complete. The application handles these timeouts gracefully, but increasing the limits provides a better user experience.
 
 ## Advanced Configuration
 

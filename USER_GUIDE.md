@@ -1,6 +1,6 @@
-# MAESTRO User Guide
+# PROMTOK User Guide
 
-This guide provides a detailed walkthrough of the configuration options and features available in the MAESTRO web interface.
+This guide provides a detailed walkthrough of the configuration options and features available in the PROMTOK web interface.
 
 ## First-Time Login
 
@@ -13,7 +13,7 @@ It is **highly recommended** that you change the default password immediately af
 
 ## Settings Panel Overview
 
-The settings panel is the central hub for customizing your MAESTRO instance. It is organized into several tabs:
+The settings panel is the central hub for customizing your PROMTOK instance. It is organized into several tabs:
 
 ### 1. Profile
 
@@ -24,7 +24,7 @@ This tab allows you to manage your personal user account.
 
 ### 2. AI Config
 
-This tab is crucial for configuring the Large Language Models (LLMs) that power MAESTRO's agents. You can choose between a simple, unified setup or an advanced, per-agent configuration.
+This tab is crucial for configuring the Large Language Models (LLMs) that power PROMTOK's agents. You can choose between a simple, unified setup or an advanced, per-agent configuration.
 
 #### Provider Configuration (Basic Mode)
 
@@ -73,7 +73,7 @@ Configure the web search provider used by the Research Agent.
 
 ### 4. Web Page Fetching
 
-Configure how MAESTRO fetches content from web pages when following search results.
+Configure how PROMTOK fetches content from web pages when following search results.
 
 -   **Fetch Provider**: Choose your preferred method for fetching web page content.
     -   **Original** (Built-in using newspaper3k and PyMuPDF - Fast, works for most sites)

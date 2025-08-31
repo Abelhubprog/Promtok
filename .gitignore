@@ -280,7 +280,6 @@ data/
 # MODEL CACHES & AI/ML FILES
 # =============================================================================
 # HuggingFace model cache
-maestro_model_cache/
 promtok_model_cache/
 .cache/
 *.cache/
@@ -288,7 +287,6 @@ transformers_cache/
 torch_cache/
 
 # Custom model cache directories
-maestro_datalab_cache/
 promtok_datalab_cache/
 
 # Model files (often large)

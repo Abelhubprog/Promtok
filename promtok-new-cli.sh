@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# MAESTRO Direct CLI Helper Script
+# PROMTOK Direct CLI Helper Script
 # This script provides direct document processing with live feedback
 
 set -e
@@ -62,7 +62,7 @@ run_direct_cli() {
 # Help function
 show_help() {
     cat << EOF
-MAESTRO Direct CLI Helper Script
+PROMTOK Direct CLI Helper Script
 
 This tool provides DIRECT document processing with live feedback, bypassing the background queue.
 Documents are processed synchronously with real-time progress updates.
