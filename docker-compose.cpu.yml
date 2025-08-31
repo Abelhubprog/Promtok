@@ -169,7 +169,7 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: ./maestro_data
+      device: ./promtok_data
   # Uncomment if using local LLM
   # ollama-data:
   #   driver: local
