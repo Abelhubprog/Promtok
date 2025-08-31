@@ -1,0 +1,48 @@
+# Lightweight CPU-only image for Railway
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# System deps for WeasyPrint and friends
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpango-1.0-0 \
+    libpangoft2-1.0-0 \
+    libharfbuzz0b \
+    libffi-dev \
+    libjpeg-dev \
+    libopenjp2-7-dev \
+    libcairo2 \
+    libgdk-pixbuf2.0-0 \
+    libfribidi0 \
+    libglib2.0-0 \
+    libpangocairo-1.0-0 \
+    libcairo2-dev \
+    pandoc \
+    dos2unix \
+  && rm -rf /var/lib/apt/lists/*
+
+# Install Python deps
+COPY maestro_backend/requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip && pip install -r /app/requirements.txt
+
+# Copy backend source
+COPY maestro_backend/ /app/
+
+# Normalize line endings
+RUN find /app -type f -name "*.sh" -exec dos2unix {} \; && chmod +x /app/start.sh
+
+# Ensure CPU mode on Railway (no GPUs available)
+ENV FORCE_CPU_MODE=true \
+    PREFERRED_DEVICE_TYPE=cpu \
+    LOG_LEVEL=ERROR
+
+# Railway provides PORT
+EXPOSE 8000
+
+CMD ["/app/start.sh"]
+

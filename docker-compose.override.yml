@@ -1,0 +1,10 @@
+services:
+  backend:
+    # Mount source for live reload in dev
+    volumes:
+      - ./maestro_backend:/app
+    environment:
+      - UVICORN_RELOAD=${UVICORN_RELOAD:-true}
+
+  # Frontend dev can run via `npm run dev` outside Docker.
+  # Nginx continues to serve built assets if you prefer dockerized frontend.
