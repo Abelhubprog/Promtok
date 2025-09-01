@@ -1,10 +1,33 @@
 services:
   backend:
-    # Mount source for live reload in dev
-    volumes:
-      - ./promtok_backend:/app
+    build:
+      context: .
+      dockerfile: promtok_backend/Dockerfile.railway
+    # Ensure CPU-only runtime and fast reload in dev
     environment:
       - UVICORN_RELOAD=${UVICORN_RELOAD:-true}
+      - FORCE_CPU_MODE=true
+      - PREFERRED_DEVICE_TYPE=cpu
+    # Remove GPU deploy config from base compose
+    deploy: null
+
+  doc-processor:
+    build:
+      context: .
+      dockerfile: promtok_backend/Dockerfile.railway
+    environment:
+      - FORCE_CPU_MODE=true
+      - PREFERRED_DEVICE_TYPE=cpu
+    deploy: null
+
+  cli:
+    build:
+      context: .
+      dockerfile: promtok_backend/Dockerfile.railway
+    environment:
+      - FORCE_CPU_MODE=true
+      - PREFERRED_DEVICE_TYPE=cpu
+    deploy: null
 
   # Frontend dev can run via `npm run dev` outside Docker.
   # Nginx continues to serve built assets if you prefer dockerized frontend.

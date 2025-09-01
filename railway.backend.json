@@ -1,0 +1,46 @@
+{
+  "service": "promtok_backend",
+  "dockerfilePath": "promtok_backend/Dockerfile.railway",
+  "description": "Documentation for deploying the backend on Railway (CPU-only). Binds to $PORT and connects to managed Postgres.",
+  "environment": {
+    "required": [
+      {
+        "name": "DATABASE_URL",
+        "description": "Prefer a Railway Variable Reference to your Postgres service's DATABASE_URL. The app can also compose from PG*/POSTGRES_* parts if needed."
+      },
+      { "name": "JWT_SECRET_KEY", "description": "Strong random secret for signing JWTs." },
+      { "name": "ADMIN_USERNAME", "description": "Bootstrap admin username (change after first login)." },
+      { "name": "ADMIN_PASSWORD", "description": "Bootstrap admin password (change after first login)." }
+    ],
+    "recommended": [
+      { "name": "CORS_ALLOWED_ORIGINS", "description": "Comma-separated list of allowed origins (e.g., your frontend URL)." },
+      { "name": "ALLOW_CORS_WILDCARD", "default": "false", "description": "Set true only for testing; not recommended for production." },
+      { "name": "LOG_LEVEL", "default": "ERROR", "description": "Logging level: ERROR/INFO/DEBUG." },
+      { "name": "TZ", "default": "UTC", "description": "Server timezone." },
+      { "name": "MAX_WORKER_THREADS", "default": "10", "description": "Background thread pool size." },
+      { "name": "FORCE_CPU_MODE", "default": "true", "description": "Force CPU execution on Railway (no GPUs)." },
+      { "name": "PREFERRED_DEVICE_TYPE", "default": "cpu", "description": "Device type hint for libraries." }
+    ]
+  },
+  "ports": {
+    "PORT": "Provided by Railway at runtime; start.sh binds FastAPI to ${PORT}."
+  },
+  "health": {
+    "path": "/health",
+    "method": "GET",
+    "expected": { "status": "healthy" }
+  },
+  "database": {
+    "variableReference": "Use Railway's Variable Reference to map the Postgres service DATABASE_URL into this service.",
+    "fallback": "If DATABASE_URL is unset, the app will attempt to compose one from PGHOST/PGPORT/PGDATABASE/PGUSER/PGPASSWORD; otherwise it falls back to SQLite (not recommended for production)."
+  },
+  "railwayUIInstructions": [
+    "Create a new service from this repo using Dockerfile build.",
+    "Set Dockerfile path to promtok_backend/Dockerfile.railway.",
+    "Open Variables and add a Variable Reference: DATABASE_URL -> <Your Postgres service>.",
+    "Add JWT_SECRET_KEY, ADMIN_USERNAME, ADMIN_PASSWORD, and set CORS_ALLOWED_ORIGINS to your frontend domain.",
+    "Deploy."
+  ],
+  "notes": "GPU is not available on Railway; this image and app run in CPU mode."
+}
+

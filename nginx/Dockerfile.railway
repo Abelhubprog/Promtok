@@ -1,0 +1,16 @@
+FROM nginx:alpine
+
+# Defaults that can be overridden at deploy time
+ENV CLIENT_MAX_BODY_SIZE=500M \
+    PROXY_READ_TIMEOUT=600s \
+    PROXY_SEND_TIMEOUT=600s \
+    PROXY_CONNECT_TIMEOUT=60s \
+    FRONTEND_URL=http://127.0.0.1:8080 \
+    BACKEND_URL=http://127.0.0.1:8000
+
+# Copy template and a simple entrypoint to render it
+COPY nginx.conf.railway.template /etc/nginx/templates/nginx.conf.railway.template
+
+# Generate nginx.conf from template and run nginx
+CMD ["sh", "-c", "envsubst '\n$PORT\n$CLIENT_MAX_BODY_SIZE\n$PROXY_READ_TIMEOUT\n$PROXY_SEND_TIMEOUT\n$PROXY_CONNECT_TIMEOUT\n$FRONTEND_URL\n$BACKEND_URL\n' < /etc/nginx/templates/nginx.conf.railway.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;' "]
+

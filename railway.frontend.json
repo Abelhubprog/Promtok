@@ -1,0 +1,43 @@
+{
+  "service": "promtok_frontend",
+  "dockerfilePath": "promtok_frontend/Dockerfile",
+  "description": "Documentation for building the frontend on Railway with the required Vite build args.",
+  "buildArgs": {
+    "required": [
+      {
+        "name": "VITE_API_HTTP_URL",
+        "description": "Public HTTP base URL of the backend service. Example: https://<your-backend>.railway.app"
+      },
+      {
+        "name": "VITE_API_WS_URL",
+        "description": "Public WebSocket base URL of the backend service. Example: wss://<your-backend>.railway.app"
+      }
+    ],
+    "optional": [
+      {
+        "name": "VITE_SERVER_TIMEZONE",
+        "default": "America/Chicago",
+        "description": "Timezone label used by the UI."
+      }
+    ]
+  },
+  "runtime": {
+    "PORT": "Managed by Railway; the Dockerfile binds to ${PORT}."
+  },
+  "railwayUIInstructions": [
+    "Create a new service from this repo and choose Dockerfile build.",
+    "Set Dockerfile path to promtok_frontend/Dockerfile.",
+    "Open Variables and add Build Args: VITE_API_HTTP_URL, VITE_API_WS_URL (and optional VITE_SERVER_TIMEZONE).",
+    "Deploy. Any change to VITE_* requires a rebuild."
+  ],
+  "examples": {
+    "exampleArgs": {
+      "VITE_API_HTTP_URL": "https://promtok-backend-production.up.railway.app",
+      "VITE_API_WS_URL": "wss://promtok-backend-production.up.railway.app",
+      "VITE_SERVER_TIMEZONE": "UTC"
+    },
+    "dockerBuildLocally": "docker build -f promtok_frontend/Dockerfile --build-arg VITE_API_HTTP_URL=https://<backend> --build-arg VITE_API_WS_URL=wss://<backend> -t promtok-frontend ./"
+  },
+  "notes": "Vite reads VITE_* at build time. Changing these values after deploy requires triggering a new build."
+}
+

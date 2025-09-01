@@ -1,0 +1,117 @@
+user  nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    tcp_nopush      on;
+    tcp_nodelay     on;
+
+    # DNS resolver for proxying to public Railway service hostnames
+    resolver 1.1.1.1 1.0.0.1 8.8.8.8 valid=300s ipv6=off;
+
+    # Size and timeout tuning
+    client_max_body_size ${CLIENT_MAX_BODY_SIZE};
+    proxy_buffer_size 128k;
+    proxy_buffers 4 256k;
+    proxy_busy_buffers_size 256k;
+
+    map $http_upgrade $connection_upgrade {
+        default upgrade;
+        ''      close;
+    }
+
+    server {
+        # Railway requires binding to PORT
+        listen ${PORT};
+        server_name _;
+
+        # Frontend: proxy root to the public frontend service
+        # If you instead bake static files into this image, replace this
+        # block with a `root /usr/share/nginx/html; try_files` stanza.
+        location / {
+            proxy_pass ${FRONTEND_URL};
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_read_timeout ${PROXY_READ_TIMEOUT};
+            proxy_send_timeout ${PROXY_SEND_TIMEOUT};
+            proxy_connect_timeout ${PROXY_CONNECT_TIMEOUT};
+            proxy_ssl_server_name on;
+            proxy_ssl_name $proxy_host;
+        }
+
+        # Backend REST API
+        location /api/ {
+            proxy_pass ${BACKEND_URL};
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Cookie $http_cookie;
+            proxy_pass_header Set-Cookie;
+            proxy_read_timeout ${PROXY_READ_TIMEOUT};
+            proxy_send_timeout ${PROXY_SEND_TIMEOUT};
+            proxy_connect_timeout ${PROXY_CONNECT_TIMEOUT};
+            proxy_ssl_server_name on;
+            proxy_ssl_name $proxy_host;
+        }
+
+        # WebSocket: /api/ws
+        location /api/ws {
+            proxy_pass ${BACKEND_URL};
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_read_timeout 7d;
+            proxy_send_timeout 7d;
+            proxy_connect_timeout ${PROXY_CONNECT_TIMEOUT};
+            proxy_ssl_server_name on;
+            proxy_ssl_name $proxy_host;
+        }
+
+        # Also route legacy WS paths
+        location /ws {
+            proxy_pass ${BACKEND_URL};
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_read_timeout 7d;
+            proxy_send_timeout 7d;
+            proxy_connect_timeout ${PROXY_CONNECT_TIMEOUT};
+            proxy_ssl_server_name on;
+            proxy_ssl_name $proxy_host;
+        }
+
+        # Health proxy (optional)
+        location /health {
+            proxy_pass ${BACKEND_URL}/health;
+            proxy_http_version 1.1;
+            proxy_set_header Host $host;
+            proxy_read_timeout 30s;
+            proxy_connect_timeout 10s;
+            proxy_ssl_server_name on;
+            proxy_ssl_name $proxy_host;
+        }
+    }
+}
+

@@ -37,3 +37,33 @@ Notes
 
 Health checks
 - Backend: `GET /health` should return `{ "status": "healthy" }`
+
+Single-domain option via Nginx (optional)
+
+If you prefer a single public domain that serves the frontend and proxies API/WebSocket traffic to the backend, you can deploy the provided Nginx service on Railway:
+
+1) Add a new service with:
+   - Root directory: `promtok`
+   - Dockerfile path: `nginx/Dockerfile.railway`
+2) Set these variables on the Nginx service:
+   - `FRONTEND_URL` = `https://<your-frontend>.railway.app`
+   - `BACKEND_URL`  = `https://<your-backend>.railway.app`
+   - Optional tuning: `CLIENT_MAX_BODY_SIZE` (default `500M`), `PROXY_READ_TIMEOUT`/`PROXY_SEND_TIMEOUT` (default `600s`), `PROXY_CONNECT_TIMEOUT` (default `60s`).
+3) Deploy the service. Nginx listens on `$PORT` and proxies:
+   - `/` → frontend
+   - `/api/*` → backend
+   - `/api/ws` and `/ws` → backend (WebSockets with Upgrade headers)
+
+Advanced: If you want Nginx to serve the frontend static build instead of proxying `FRONTEND_URL`, build the frontend in a separate step and copy `dist` into an image derived from `nginx:alpine`. Then modify `nginx.conf.railway.template` root location to:
+
+```
+location / {
+  root /usr/share/nginx/html;
+  try_files $uri $uri/ /index.html;
+}
+```
+
+and ensure the assets are copied to `/usr/share/nginx/html`.
+
+Reference files
+- `railway.frontend.json`: documents frontend Dockerfile path, required Vite build args, and Railway UI steps.
