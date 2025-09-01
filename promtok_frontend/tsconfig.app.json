@@ -8,9 +8,8 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    /* Node-style resolution for tsc */
+    "moduleResolution": "node",
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
