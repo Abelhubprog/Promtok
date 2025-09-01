@@ -628,6 +628,38 @@ promtok-cli.bat create-user researcher mypass123
 promtok-cli.bat ingest researcher .\documents
 ```
 
+## Railway Deployment
+
+PROMTOK ships Dockerfiles for both backend and frontend to make cloud deploys simple. Avoid using Nixpacks at the repo root (monorepo) — deploy each service separately.
+
+- Backend (FastAPI)
+  - Root Directory: `promtok_backend`
+  - Builder: Dockerfile
+  - Dockerfile Path: `promtok_backend/Dockerfile.railway`
+  - Health Check: `GET /health`
+  - Env vars:
+    - `DATABASE_URL`: from Railway Postgres plugin
+    - `ADMIN_USERNAME`, `ADMIN_PASSWORD`
+    - `JWT_SECRET_KEY`: long random string
+    - `LOG_LEVEL=ERROR`
+    - `FORCE_CPU_MODE=true`, `PREFERRED_DEVICE_TYPE=cpu`
+    - `ALLOW_CORS_WILDCARD=true` (or set `CORS_ALLOWED_ORIGINS` to your frontend URL)
+
+- Frontend (Vite/React)
+  - Root Directory: `promtok_frontend`
+  - Builder: Dockerfile
+  - Dockerfile Path: `promtok_frontend/Dockerfile.railway`
+  - Build/Runtime Env:
+    - `VITE_API_HTTP_URL`: `https://<backend-domain>`
+    - `VITE_API_WS_URL`: `wss://<backend-domain>`
+    - `VITE_SERVER_TIMEZONE` (optional)
+  - Redeploy after backend URL is known so the Vite build bakes correct URLs.
+
+Notes
+- Railway Postgres must support extensions; the backend attempts to enable `uuid-ossp` and `vector` (pgvector) on startup.
+- Do not use `docker-compose` on Railway; use the per‑service Dockerfiles above.
+- For a deeper walkthrough, see [RAILWAY.md](./RAILWAY.md).
+
 ## Documentation
 
 - [USER_GUIDE.md](./USER_GUIDE.md) - Detailed guide for configuring and using PROMTOK's features
