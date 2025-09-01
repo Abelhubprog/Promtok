@@ -17,7 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libjpeg-dev \
     libopenjp2-7-dev \
     libcairo2 \
-    libgdk-pixbuf2.0-0 \
+    libgdk-pixbuf-2.0-0 \
+    libgdk-pixbuf-xlib-2.0-0 \
     libfribidi0 \
     libglib2.0-0 \
     libpangocairo-1.0-0 \
