@@ -1,10 +1,10 @@
 #!/bin/bash
 
-# Maestro startup script with automatic GPU detection
+# Promtok startup script with automatic GPU detection
 
 set -e
 
-echo "[START] Starting Maestro..."
+echo "[START] Starting Promtok..."
 
 # Source GPU detection
 source ./detect_gpu.sh
@@ -61,11 +61,11 @@ docker compose $COMPOSE_FILES up -d
 # Check if services are running
 sleep 5
 if docker compose ps | grep -q "Up"; then
-    echo "[OK] Maestro is running!"
+    echo "[OK] Promtok is running!"
     echo ""
-    echo "[ACCESS] Access MAESTRO at:"
+    echo "[ACCESS] Access PROMTOK at:"
     # Use the new nginx proxy port if available, fallback to old config for backward compatibility
-    if [ -n "${MAESTRO_PORT}" ]; then
+    if [ -n "${PROMTOK_PORT}" ]; then
         if [ "${MAESTRO_PORT}" = "80" ]; then
             echo "         http://localhost"
         else
@@ -81,7 +81,7 @@ if docker compose ps | grep -q "Up"; then
     echo ""
     echo "[NOTE] IMPORTANT - First Run:"
     echo "       Initial startup takes 5-10 minutes to download AI models"
-    echo "       Monitor progress with: docker compose logs -f maestro-backend"
+    echo "       Monitor progress with: docker compose logs -f promtok-backend"
     echo "       Wait for message: Application startup complete"
 else
     echo "[ERROR] Failed to start services. Check logs with: docker compose logs"

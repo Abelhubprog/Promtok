@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Maestro shutdown script
+# Promtok shutdown script
 
-echo "🛑 Stopping Maestro..."
+echo "🛑 Stopping Promtok..."
 
 # Source GPU detection to determine which compose files were used
 source ./detect_gpu.sh
@@ -16,4 +16,4 @@ fi
 # Stop services
 docker compose $COMPOSE_FILES down
 
-echo "✅ Maestro stopped."
+echo "✅ Promtok stopped."
