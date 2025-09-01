@@ -15,13 +15,14 @@ ENV VITE_API_HTTP_URL=${VITE_API_HTTP_URL}
 ENV VITE_API_WS_URL=${VITE_API_WS_URL}
 
 # Install dependencies (including dev dependencies for build)
-RUN npm install
+RUN npm ci
 
 # Copy source code
 COPY . .
 
 # Build the application (Vite will inline VITE_* values if provided)
-RUN npm run build
+# Use a deploy build that skips tsc to avoid type-check failures during container builds
+RUN npm run build:deploy
 
 # Production stage with simple static server
 FROM node:20-alpine

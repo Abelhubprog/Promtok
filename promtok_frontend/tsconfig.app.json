@@ -8,9 +8,11 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
-    /* Node-style resolution for tsc */
-    "moduleResolution": "node",
-    "verbatimModuleSyntax": true,
+    /* Resolution & interop */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
