@@ -25,7 +25,8 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": ".",
     "paths": {
-      "zustand": ["./node_modules/zustand"]
+      "zustand": ["./node_modules/zustand"],
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"]
