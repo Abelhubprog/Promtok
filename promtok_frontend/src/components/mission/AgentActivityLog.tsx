@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { Bot, Activity, ChevronDown } from 'lucide-react';
-import { LogEntryCard } from './LogEntryCard.tsx';
-import { ResearchAgentLog } from './ResearchAgentLog.tsx';
-import { PlanningAgentLog } from './PlanningAgentLog.tsx';
-import { WritingAgentLog } from './WritingAgentLog.tsx';
-import { ReflectionAgentLog } from './ReflectionAgentLog.tsx';
-import { DefaultLogRenderer } from './DefaultLogRenderer.tsx';
+import { LogEntryCard } from './LogEntryCard';
+import { ResearchAgentLog } from './ResearchAgentLog';
+import { PlanningAgentLog } from './PlanningAgentLog';
+import { WritingAgentLog } from './WritingAgentLog';
+import { ReflectionAgentLog } from './ReflectionAgentLog';
+import { DefaultLogRenderer } from './DefaultLogRenderer';
 
 export interface ExecutionLogEntry {
   log_id?: string;  // Unique identifier for each log entry
