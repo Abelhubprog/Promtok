@@ -15,10 +15,22 @@ from logging_config import setup_logging
 setup_logging()  # Will use LOG_LEVEL environment variable
 logger = logging.getLogger(__name__)
 
+# Read version from VERSION file (single source of truth)
+def read_version(default: str = "0.1.4") -> str:
+    try:
+        base_dir = os.path.dirname(__file__)
+        version_path = os.path.join(base_dir, "VERSION")
+        if os.path.exists(version_path):
+            with open(version_path, "r", encoding="utf-8") as f:
+                return f.read().strip() or default
+    except Exception:
+        pass
+    return default
+
 app = FastAPI(
     title="PROMTOK API",
     description="AI Research Assistant API",
-    version="2.0.0-alpha"
+    version=read_version()
 )
 
 # Configure CORS with environment variables

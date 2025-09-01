@@ -153,7 +153,12 @@ def process_document_in_subprocess(args):
         
         # With spawn method, each process has a fresh CUDA context
         # No need for delays or manual initialization
-        actual_device = device or 'cuda'
+        # Honor CPU-only mode if configured
+        force_cpu = os.getenv('FORCE_CPU_MODE', 'false').lower() == 'true'
+        if force_cpu:
+            actual_device = 'cpu'
+        else:
+            actual_device = device or 'cuda'
         print(f"[Process {os.getpid()}] Using device: {actual_device}")
         
         # Initialize embedder with proper device

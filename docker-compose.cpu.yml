@@ -40,7 +40,7 @@ services:
   backend:
     build:
       context: ./promtok_backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.cpu
     image: promtok-backend
     container_name: promtok-backend
     depends_on:
@@ -96,7 +96,7 @@ services:
   doc-processor:
     build:
       context: ./promtok_backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.cpu
     image: promtok-doc-processor
     container_name: promtok-doc-processor
     command: ["python", "-u", "services/background_document_processor.py"]
@@ -124,7 +124,7 @@ services:
   cli:
     build:
       context: ./promtok_backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.cpu
     image: promtok-cli
     container_name: promtok-cli
     command: ["bash"]

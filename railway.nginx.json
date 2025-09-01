@@ -1,0 +1,28 @@
+{
+  "service": "promtok_nginx",
+  "dockerfilePath": "nginx/Dockerfile.railway",
+  "description": "Optional aggregator: single domain proxying frontend + backend.",
+  "environment": {
+    "required": [
+      { "name": "FRONTEND_URL", "description": "Public URL of the frontend service" },
+      { "name": "BACKEND_URL", "description": "Public URL of the backend service" }
+    ],
+    "optional": [
+      { "name": "CLIENT_MAX_BODY_SIZE", "default": "500M" },
+      { "name": "PROXY_READ_TIMEOUT", "default": "600s" },
+      { "name": "PROXY_SEND_TIMEOUT", "default": "600s" },
+      { "name": "PROXY_CONNECT_TIMEOUT", "default": "60s" }
+    ]
+  },
+  "runtime": {
+    "PORT": "Managed by Railway; Nginx listens on ${PORT}."
+  },
+  "routes": {
+    "/": "${FRONTEND_URL}",
+    "/api/": "${BACKEND_URL}",
+    "/api/ws": "${BACKEND_URL}",
+    "/ws": "${BACKEND_URL}"
+  },
+  "notes": "Use this service if you want a single domain for UI and API."
+}
+

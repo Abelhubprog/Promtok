@@ -224,7 +224,12 @@ def process_document_in_subprocess(args):
         # Initialize components
         print(f"[Process {os.getpid()}] Initializing components for doc_id: {doc_id}...")
         
-        actual_device = device or 'cuda'
+        # Honor CPU-only mode if configured
+        force_cpu = os.getenv('FORCE_CPU_MODE', 'false').lower() == 'true'
+        if force_cpu:
+            actual_device = 'cpu'
+        else:
+            actual_device = device or 'cuda'
         print(f"[Process {os.getpid()}] Using device: {actual_device}")
         
         # Initialize embedder with proper device

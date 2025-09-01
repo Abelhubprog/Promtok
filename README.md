@@ -5,8 +5,8 @@
 # PROMTOK: Your Self-Hosted AI Research Assistant
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/Abelhubprog/Promtok.git)
-[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://hub.docker.com/r/yourusername/promtok)
+[![Version](https://img.shields.io/badge/Version-0.1.4-green.svg)](./CHANGELOG.md)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](./DOCKER.md)
 
 > **Version 0.1.4 Update (08/20/2025)**
 > 
@@ -21,7 +21,7 @@
 > - **New Requirements**: PostgreSQL with pgvector extension (included in Docker setup)
 > - **Security**: All credentials now configurable via environment variables 
 
-PROMTOK is an AI-powered research platform you can host on your own hardware. It's designed to manage complex research tasks from start to finish in a collaborative, multi-user environment. Plan your research, let AI agents carry it out, and watch as they generate detailed reports based on your documents and sources from the web.
+PROMTOK is an AI-powered research platform you can host on your own hardware. It's designed to manage complex research tasks from start to finish in a collaborative, multi-user environment. Plan your research, let AI agents carry it out, and watch as they generate detailed reports based on your documents and sources from the web. See the [CHANGELOG](./CHANGELOG.md) for recent updates.
 
 <p align="center">
   <img src="images/10-research-draft.png" alt="Final Draft" width="700"/>
@@ -463,11 +463,12 @@ This approach keeps the GPU libraries in the container but tells the application
 # Linux/macOS: Automatic platform detection
 ./start.sh
 
-# Windows: PowerShell
-.\start.sh
+# Windows:
+# Use Git Bash or WSL to run the shell script
+bash ./start.sh
 
 # Stop services
-./stop.sh  # or .\stop.sh on Windows
+./stop.sh  # on Windows use: bash ./stop.sh
 ```
 
 #### Platform-Specific GPU Support
@@ -666,6 +667,7 @@ Notes
 - [CLI_GUIDE.md](./CLI_GUIDE.md) - Comprehensive command-line interface documentation
 - [DOCKER.md](./DOCKER.md) - Complete Docker setup and deployment instructions
 - [WINDOWS_SETUP.md](./WINDOWS_SETUP.md) - Windows-specific installation guide
+- [CHANGELOG.md](./CHANGELOG.md) - Version history and notable changes
 
 ## License
 

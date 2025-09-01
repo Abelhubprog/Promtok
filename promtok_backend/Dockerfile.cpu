@@ -1,4 +1,4 @@
-# Lightweight CPU-only image for Railway
+# CPU-only image for local development and servers without GPUs
 FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# System deps for WeasyPrint and friends
+# System deps for WeasyPrint and related tooling
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpango-1.0-0 \
@@ -29,25 +29,25 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Install Python deps
 COPY requirements.txt /app/requirements.txt
-# Ensure we have recent build tooling
+# Ensure modern build tooling and install CPU PyTorch explicitly
 RUN python -m pip install --upgrade pip setuptools wheel \
   && python -m pip install --no-cache-dir \
        --index-url https://download.pytorch.org/whl/cpu \
        torch torchvision torchaudio \
   && python -m pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy backend source
+# Copy source
 COPY . /app/
 
-# Normalize line endings
+# Normalize line endings and ensure start script is executable
 RUN find /app -type f -name "*.sh" -exec dos2unix {} \; && chmod +x /app/start.sh
 
-# Ensure CPU mode on Railway (no GPUs available)
+# CPU mode only
 ENV FORCE_CPU_MODE=true \
     PREFERRED_DEVICE_TYPE=cpu \
     LOG_LEVEL=ERROR
 
-# Railway provides PORT
 EXPOSE 8000
 
 CMD ["/app/start.sh"]
+

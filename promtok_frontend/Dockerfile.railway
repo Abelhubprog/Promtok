@@ -1,9 +1,9 @@
 # Build and serve the Vite app on Railway
 FROM node:20-alpine AS build
 WORKDIR /app
-COPY promtok_frontend/package*.json ./
+COPY package*.json ./
 RUN npm ci
-COPY promtok_frontend/ ./
+COPY . ./
 RUN npm run build
 
 FROM node:20-alpine AS runtime

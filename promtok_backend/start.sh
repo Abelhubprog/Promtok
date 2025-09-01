@@ -5,6 +5,14 @@
 
 echo "🚀 Starting PROMTOK Backend..."
 
+# Enforce CPU-only mode when requested
+if [ "${FORCE_CPU_MODE}" = "true" ]; then
+  echo "🧠 Forcing CPU mode (disabling CUDA/MPS/ROCm)"
+  export CUDA_VISIBLE_DEVICES=""
+  export HIP_VISIBLE_DEVICES=""
+  export ROCM_VISIBLE_DEVICES=""
+fi
+
 # Wait for PostgreSQL to be ready
 echo "⏳ Waiting for PostgreSQL to be ready..."
 for i in {1..30}; do
