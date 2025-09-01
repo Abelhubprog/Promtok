@@ -124,12 +124,12 @@ PROMTOK streamlines the research process with a unified, chat-driven workflow. D
   <summary><h2>How It Works: The WRITER Agentic Framework</h2></summary>
   <br>
 
-MAESTRO is a sophisticated multi-agent system designed to automate complex research synthesis. Instead of a single AI model, MAESTRO employs a team of specialized AI agents that collaborate to plan, execute, critique, and write research reports.
+PROMTOK is a sophisticated multi-agent system designed to automate complex research synthesis. Instead of a single AI model, PROMTOK employs a team of specialized AI agents that collaborate to plan, execute, critique, and write research reports.
 
 This methodology ensures a structured, transparent, and rigorous process from the initial question to the final, evidence-based report.
 
 <p align="center">
-  <em>The MAESTRO Research Lifecycle</em>
+  <em>The PROMTOK Research Lifecycle</em>
 </p>
 <p align="center">
 
@@ -180,12 +180,12 @@ graph TD
 
 ### The Core Agent Team
 
-MAESTRO's capabilities are driven by a team of specialized agents, each with a distinct role:
+PROMTOK's capabilities are driven by a team of specialized agents, each with a distinct role:
 
 *   **Agent Controller (The Orchestrator):** Manages the entire mission, delegating tasks to the appropriate agents and ensuring the workflow progresses smoothly from one phase to the next.
 *   **Planning Agent (The Strategist):** Takes the user's initial request and transforms it into a structured, hierarchical research plan and a report outline. This creates a clear roadmap for the mission.
 *   **Research Agent (The Investigator):** Executes the research plan by gathering information. It uses its tools—the local RAG pipeline and web search—to find relevant evidence and organizes it into structured `ResearchNote` objects.
-*   **Reflection Agent (The Critical Reviewer):** This is the key to MAESTRO's analytical depth. The Reflection Agent constantly reviews the work of other agents, identifying knowledge gaps, inconsistencies, or deviations from the plan. Its feedback drives the iterative loops that refine and improve the quality of the research.
+*   **Reflection Agent (The Critical Reviewer):** This is the key to PROMTOK's analytical depth. The Reflection Agent constantly reviews the work of other agents, identifying knowledge gaps, inconsistencies, or deviations from the plan. Its feedback drives the iterative loops that refine and improve the quality of the research.
 *   **Writing Agent (The Synthesizer):** Takes the curated research notes and weaves them into a coherent, well-structured narrative that follows the report outline.
 
 ### The Research Process: Iteration and Refinement
@@ -206,12 +206,12 @@ The research process is not linear; it's a series of iterative loops designed to
     *   **Fidelity to Sources:** Does the writing accurately represent the evidence in the `ResearchNote`s?
     The `Writing Agent` then revises the draft based on this feedback. This loop repeats until the writing meets the required standard of quality and accuracy.
 
-This structured, reflective, and iterative process allows MAESTRO to move beyond simple information aggregation and produce sophisticated, reliable, and auditable research syntheses.
+This structured, reflective, and iterative process allows PROMTOK to move beyond simple information aggregation and produce sophisticated, reliable, and auditable research syntheses.
 </details>
 
 ## Getting Started
 
-MAESTRO is designed to be run as a containerized application using Docker.
+PROMTOK is designed to be run as a containerized application using Docker.
 
 ### Prerequisites
 *   **Docker** and **Docker Compose** (v2.0+)
@@ -232,8 +232,8 @@ MAESTRO is designed to be run as a containerized application using Docker.
 **The simplest way to get started:**
 
 ```bash
-git clone https://github.com/murtaza-nasir/maestro.git
-cd maestro
+git clone https://github.com/Abelhubprog/Promtok.git
+cd promtok
 ./setup-env.sh    # Linux/macOS
 # or setup-env.ps1 # Windows PowerShell
 docker compose up -d
@@ -241,11 +241,11 @@ docker compose up -d
 
 **⚠️ First Run:** Initial startup takes 5-10 minutes to download AI models. Monitor progress with:
 ```bash
-docker compose logs -f maestro-backend
+docker compose logs -f promtok-backend
 # Wait for: "Application startup complete"
 ```
 
-Access MAESTRO at **http://localhost**
+Access PROMTOK at **http://localhost**
 
 **Default Credentials** (change immediately after first login):
 - Username: `admin`
@@ -256,8 +256,8 @@ Access MAESTRO at **http://localhost**
 #### Linux/macOS
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/murtaza-nasir/maestro.git
-    cd maestro
+    git clone https://github.com/Abelhubprog/Promtok.git
+    cd promtok
     ```
 
 2.  **Configure Your Environment**
@@ -270,7 +270,7 @@ Access MAESTRO at **http://localhost**
     - **Network** (access from other devices on your network)
     - **Custom domain** (for reverse proxy setups like researcher.local)
 
-3.  **Start MAESTRO**
+3.  **Start PROMTOK**
     ```bash
     # Recommended: Automatic GPU detection
     ./start.sh
@@ -298,8 +298,8 @@ Access MAESTRO at **http://localhost**
 #### Windows
 1.  **Clone the Repository**
     ```powershell
-    git clone https://github.com/murtaza-nasir/maestro.git
-    cd maestro
+    git clone https://github.com/Abelhubprog/Promtok.git
+    cd promtok
     ```
     
     **Important for Windows/WSL Users:** If you encounter "bad interpreter" errors, run:
@@ -322,7 +322,7 @@ Access MAESTRO at **http://localhost**
     - **Network** (access from other devices on your network)  
     - **Custom domain** (for reverse proxy setups)
 
-3.  **Start MAESTRO**
+3.  **Start PROMTOK**
     ```powershell
     # For Windows/WSL without GPU:
     docker compose -f docker-compose.cpu.yml up -d
@@ -340,7 +340,7 @@ Access MAESTRO at **http://localhost**
     **Monitor the startup progress:**
     ```powershell
     # Watch the backend logs
-    docker compose logs -f maestro-backend
+    docker compose logs -f promtok-backend
     
     # Wait for this message:
     # "INFO:     Application startup complete."
@@ -571,7 +571,7 @@ PROMTOK is built on a modern, decoupled architecture:
 
 ### Fully Self-Hosted Operation
 
-MAESTRO can be configured for a completely self-hosted environment. It supports local, OpenAI-compatible API models, allowing you to run your own LLMs. For web searches, it integrates with **SearXNG**, a private and hackable metasearch engine, ensuring that your entire research workflow can remain on your own hardware.
+PROMTOK can be configured for a completely self-hosted environment. It supports local, OpenAI-compatible API models, allowing you to run your own LLMs. For web searches, it integrates with **SearXNG**, a private and hackable metasearch engine, ensuring that your entire research workflow can remain on your own hardware.
 
 #### SearXNG Configuration
 
@@ -677,3 +677,4 @@ This project is **dual-licensed**:
 ## Contributing
 
 Feedback, bug reports, and feature suggestions are highly valuable. Please feel free to open an Issue on the GitHub repository.
+
