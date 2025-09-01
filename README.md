@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="images/logo.jfif" alt="PROMTOK Logo" width="200"/>
+  <img src="images/logo2.jfif" alt="PROMTOK Logo" width="200"/>
 </p>
 
 # PROMTOK: Your Self-Hosted AI Research Assistant
