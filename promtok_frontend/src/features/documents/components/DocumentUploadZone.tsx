@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from 'react';
 import { Upload } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../../lib/utils';
 
 export interface UploadFile {
   id: string;
@@ -32,10 +32,10 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
   const validateFile = (file: File): string | null => {
     const supportedExtensions = ['.pdf', '.docx', '.doc', '.md', '.markdown'];
     const fileName = file.name.toLowerCase();
-    
+
     // Debug logging
     // console.log(`Validating file: ${file.name}, size: ${file.size}, type: ${file.type}`);
-    
+
     if (!supportedExtensions.some(ext => fileName.endsWith(ext))) {
       const error = `Only PDF, Word (docx, doc), and Markdown (md, markdown) files are supported. Got: ${file.name}`;
       console.error('File validation failed:', error);
@@ -46,7 +46,7 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
       console.error('File size validation failed:', error);
       return error;
     }
-    
+
     // console.log(`File validation passed: ${file.name}`);
     return null;
   };
@@ -119,7 +119,7 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
 
     const files = e.dataTransfer.files;
     // console.log(`Files dropped: ${files.length} files`, Array.from(files).map(f => `${f.name} (${f.type})`));
-    
+
     if (files && files.length > 0) {
       handleFiles(files);
     } else {
@@ -141,13 +141,13 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
       // console.log('Upload zone is disabled, ignoring click');
       return;
     }
-    
+
     if (!selectedGroupId) {
       // console.log('No group selected, ignoring click');
       alert('Please select a document group first before uploading files');
       return;
     }
-    
+
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -180,7 +180,7 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
           className="hidden"
           disabled={disabled || !selectedGroupId}
         />
-        
+
         <div className="flex flex-col items-center space-y-4">
           <div className={cn(
             "p-4 rounded-full",
@@ -191,13 +191,13 @@ export const DocumentUploadZone: React.FC<DocumentUploadZoneProps> = ({
               isDragOver ? "text-primary" : "text-text-secondary"
             )} />
           </div>
-          
+
           <div className="space-y-2">
             <h3 className="text-lg font-medium text-text-primary">
               {isDragOver ? "Drop files here" : "Upload Documents"}
             </h3>
             <p className="text-sm text-text-secondary">
-              {!selectedGroupId 
+              {!selectedGroupId
                 ? "Select a document group first"
                 : `Drag and drop PDF, Word, or Markdown files here, or click to browse`
               }

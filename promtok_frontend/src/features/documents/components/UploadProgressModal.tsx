@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, FileText, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../../../lib/utils';
 import type { UploadFile } from './DocumentUploadZone';
 
 interface UploadProgressModalProps {
@@ -24,11 +24,11 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
 
   const completedFiles = uploadingFiles.filter(f => f.status === 'completed');
   const failedFiles = uploadingFiles.filter(f => f.status === 'error');
-  const activeFiles = uploadingFiles.filter(f => 
+  const activeFiles = uploadingFiles.filter(f =>
     f.status === 'uploading' || f.status === 'processing' || f.status === 'pending'
   );
 
-  const totalProgress = uploadingFiles.length > 0 
+  const totalProgress = uploadingFiles.length > 0
     ? Math.round(uploadingFiles.reduce((sum, file) => sum + file.progress, 0) / uploadingFiles.length)
     : 0;
 
@@ -76,11 +76,11 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div 
+      <div
         className="absolute inset-0 bg-black bg-opacity-50"
         onClick={canClose ? onClose : undefined}
       />
-      
+
       {/* Modal */}
       <div className="relative bg-background rounded-lg shadow-xl w-full max-w-2xl mx-4 max-h-[80vh] flex flex-col border border-border">
         {/* Header */}
@@ -93,7 +93,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
               ({completedFiles.length}/{uploadingFiles.length} completed)
             </span>
           </div>
-          
+
           <div className="flex items-center space-x-2">
             {activeFiles.length > 0 && (
               <button
@@ -132,7 +132,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
               style={{ width: `${totalProgress}%` }}
             />
           </div>
-          
+
           {/* Summary Stats */}
           <div className="flex items-center justify-between mt-3 text-sm">
             <div className="flex items-center space-x-4">
@@ -170,7 +170,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
                 )}
               >
                 {getStatusIcon(uploadFile.status)}
-                
+
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-medium text-text-primary truncate">
@@ -180,11 +180,11 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
                       {formatFileSize(uploadFile.file.size)}
                     </span>
                   </div>
-                  
+
                   <p className="text-xs text-text-secondary mb-2">
                     {getStatusText(uploadFile)}
                   </p>
-                  
+
                   {(uploadFile.status === 'uploading' || uploadFile.status === 'processing') && (
                     <div className="w-full bg-muted rounded-full h-1.5">
                       <div
@@ -197,7 +197,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
                     </div>
                   )}
                 </div>
-                
+
                 <div className="flex items-center space-x-2">
                   {uploadFile.status === 'error' && (
                     <button
@@ -207,7 +207,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
                       Retry
                     </button>
                   )}
-                  
+
                   {(uploadFile.status === 'pending' || uploadFile.status === 'uploading') && (
                     <button
                       onClick={() => onCancelFile(uploadFile.id)}
@@ -238,7 +238,7 @@ export const UploadProgressModal: React.FC<UploadProgressModalProps> = ({
                   </span>
                 )}
               </div>
-              
+
               <button
                 onClick={onClose}
                 className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/80 transition-colors"

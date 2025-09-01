@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '../../lib/utils'
 
 interface TabsContextType {
   value: string
@@ -24,7 +24,7 @@ export const Tabs: React.FC<TabsProps> = ({
   className
 }) => {
   const [internalValue, setInternalValue] = useState(defaultValue || '')
-  
+
   const value = controlledValue !== undefined ? controlledValue : internalValue
   const handleValueChange = (newValue: string) => {
     if (controlledValue === undefined) {
