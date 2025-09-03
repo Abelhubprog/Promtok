@@ -28,8 +28,36 @@ export default defineConfig({
     global: 'globalThis',
   },
   build: {
+    // Relax chunk size warnings (we also apply manualChunks below)
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
       external: [],
+      output: {
+        // Split large deps to keep the main bundle leaner
+        manualChunks: {
+          vendor: [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            'zustand',
+            'axios',
+          ],
+          editor: [
+            '@tiptap/react',
+            '@tiptap/starter-kit',
+            'easymde',
+            'react-simplemde-editor',
+          ],
+          markdown: [
+            'react-markdown',
+            'remark-gfm',
+            'remark-math',
+            'rehype-raw',
+            'rehype-katex',
+            'katex',
+          ],
+        },
+      },
     },
   },
 })

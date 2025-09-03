@@ -4,10 +4,15 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Ignore virtual environments
+# Ignore virtual environments (robust on Windows/WSL symlinks)
 .venv
+.venv/**
+**/.venv
+**/.venv/**
 venv/
+venv/**
 env/
+env/**
 
 # Ignore data directories handled by volumes
 ai_researcher/data/

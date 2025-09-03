@@ -16,7 +16,7 @@ export const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
-  
+
   const login = useAuthStore((state) => state.login)
   const navigate = useNavigate()
   const { theme } = useTheme()
@@ -31,7 +31,7 @@ export const LoginPage: React.FC = () => {
       navigate('/dashboard')
     } catch (error: any) {
       let errorMessage = 'Login failed. Please try again.'
-      
+
       if (error.response?.data?.detail) {
         if (typeof error.response.data.detail === 'string') {
           errorMessage = error.response.data.detail
@@ -41,7 +41,7 @@ export const LoginPage: React.FC = () => {
           errorMessage = 'Invalid credentials or validation error.'
         }
       }
-      
+
       setError(errorMessage)
     } finally {
       setIsLoading(false)
@@ -57,15 +57,25 @@ export const LoginPage: React.FC = () => {
         <div className="text-center">
           <div className="flex justify-center mb-6">
             <div className="relative group">
-              <img 
-                src={theme === 'dark' ? '/icon_dark.png' : '/icon_original.png'} 
-                alt="PROMTOK Logo" 
+              <img
+                src="/images/protologo.png"
+                alt="PROMTOK Logo"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement
+                  if (!img.dataset.fallback) {
+                    img.dataset.fallback = '1'
+                    img.src = '/icon_original.png'
+                  } else if (img.dataset.fallback === '1') {
+                    img.dataset.fallback = '2'
+                    img.src = '/icon_original.PNG'
+                  }
+                }}
                 className="h-16 w-16 transition-transform hover:scale-105 drop-shadow-sm"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-foreground tracking-tight">
               PROMTOK
@@ -75,7 +85,7 @@ export const LoginPage: React.FC = () => {
             </p>
           </div>
         </div>
-        
+
         {/* Login Card */}
         <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-xl">
           <CardHeader className="space-y-1 pb-6">
@@ -93,7 +103,7 @@ export const LoginPage: React.FC = () => {
                   {error}
                 </div>
               )}
-              
+
               {/* Username Field */}
               <div className="space-y-2">
                 <label htmlFor="username" className="block text-sm font-medium text-foreground">
@@ -112,7 +122,7 @@ export const LoginPage: React.FC = () => {
                   />
                 </div>
               </div>
-              
+
               {/* Password Field */}
               <div className="space-y-2">
                 <label htmlFor="password" className="block text-sm font-medium text-foreground">
@@ -153,7 +163,7 @@ export const LoginPage: React.FC = () => {
                   Remember me for 30 days
                 </label>
               </div>
-              
+
               {/* Submit Button */}
               <Button
                 type="submit"
@@ -170,13 +180,13 @@ export const LoginPage: React.FC = () => {
                 )}
               </Button>
             </form>
-            
+
             {/* Register Link */}
             <div className="mt-6 text-center">
               <p className="text-sm text-muted-foreground">
                 Don't have an account?{' '}
-                <Link 
-                  to="/register" 
+                <Link
+                  to="/register"
                   className="font-medium text-primary hover:text-primary/80 transition-colors"
                 >
                   Sign up

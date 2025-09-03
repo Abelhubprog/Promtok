@@ -39,8 +39,9 @@ services:
 
   backend:
     build:
-      context: ./promtok_backend
-      dockerfile: Dockerfile.railway
+      # Build from repo root so Dockerfile can COPY promtok_backend paths reliably on Windows
+      context: .
+      dockerfile: promtok_backend/Dockerfile.railway
     image: promtok-backend
     container_name: promtok-backend
     depends_on:
@@ -80,8 +81,10 @@ services:
 
   frontend:
     build:
-      context: ./promtok_frontend
-      dockerfile: Dockerfile
+      # Use repo root as context so the Dockerfile's
+      # COPY promtok_frontend/... paths resolve correctly.
+      context: .
+      dockerfile: promtok_frontend/Dockerfile
       # No build args needed - using relative URLs through nginx proxy
     image: promtok-frontend
     container_name: promtok-frontend
@@ -100,8 +103,9 @@ services:
 
   doc-processor:
     build:
-      context: ./promtok_backend
-      dockerfile: Dockerfile.railway
+      # Build from repo root for consistent COPY paths
+      context: .
+      dockerfile: promtok_backend/Dockerfile.railway
     image: promtok-doc-processor  # Unique image name
     container_name: promtok-doc-processor
     command: ["python", "-u", "services/background_document_processor.py"]

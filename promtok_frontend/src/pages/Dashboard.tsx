@@ -115,9 +115,19 @@ export const Dashboard: React.FC = () => {
         <div className="text-center mb-16">
           <div className="flex justify-center mb-6">
             <div className="relative">
-              <img 
-                src={theme === 'dark' ? '/icon_dark.png' : '/icon_original.png'} 
-                alt="PROMTOK Logo" 
+              <img
+                src={'/images/protologo.png'}
+                alt="PROMTOK Logo"
+                onError={(e) => {
+                  const img = e.currentTarget as HTMLImageElement
+                  if (!img.dataset.fallback) {
+                    img.dataset.fallback = '1'
+                    img.src = theme === 'dark' ? '/icon_dark.png' : '/icon_original.png'
+                  } else if (img.dataset.fallback === '1') {
+                    img.dataset.fallback = '2'
+                    img.src = theme === 'dark' ? '/icon_dark.PNG' : '/icon_original.PNG'
+                  }
+                }}
                 className="h-16 w-16 transition-transform hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-xl -z-10"></div>

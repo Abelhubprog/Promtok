@@ -18,10 +18,15 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-lock.yaml
 
-# Python venvs
+# Python venvs (exclude anywhere in the tree)
 .venv
+.venv/**
+**/.venv
+**/.venv/**
 venv
+venv/**
 env
+env/**
 
 # Local caches and large data
 promtok_model_cache

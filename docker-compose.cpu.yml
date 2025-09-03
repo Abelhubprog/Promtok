@@ -57,6 +57,7 @@ services:
       - MAX_WORKER_THREADS=${MAX_WORKER_THREADS:-10}
       - TZ=${TZ:-UTC}
       - LOG_LEVEL=${LOG_LEVEL:-ERROR}
+      - PYTHONPATH=/app
       # Enable auto-reload for local development
       - UVICORN_RELOAD=${UVICORN_RELOAD:-true}
       # Force CPU mode
@@ -79,8 +80,10 @@ services:
 
   frontend:
     build:
-      context: ./promtok_frontend
-      dockerfile: Dockerfile
+      # Use repo root as context so the Dockerfile's
+      # COPY promtok_frontend/... paths resolve correctly.
+      context: .
+      dockerfile: promtok_frontend/Dockerfile
     image: promtok-frontend
     container_name: promtok-frontend
     depends_on:
@@ -114,6 +117,7 @@ services:
     environment:
       - TZ=${TZ:-UTC}
       - LOG_LEVEL=${LOG_LEVEL:-ERROR}
+      - PYTHONPATH=/app
       # PostgreSQL connection - same as backend
       - DATABASE_URL=postgresql://${POSTGRES_USER:-promtok_user}:${POSTGRES_PASSWORD:-promtok_password}@${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-promtok_db}
       # Force CPU mode
@@ -144,6 +148,7 @@ services:
     environment:
       - TZ=${TZ:-UTC}
       - LOG_LEVEL=${LOG_LEVEL:-ERROR}
+      - PYTHONPATH=/app
       # Force CPU mode
       - FORCE_CPU_MODE=true
       - PREFERRED_DEVICE_TYPE=cpu

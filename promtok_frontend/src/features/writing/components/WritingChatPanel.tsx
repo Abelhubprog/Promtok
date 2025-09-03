@@ -174,9 +174,19 @@ export const WritingChatPanel: React.FC = () => {
       <div className="h-full flex items-center justify-center bg-background">
         <div className="text-center max-w-md mx-auto p-8">
           <div className="flex justify-center mb-6">
-            <img 
-              src={theme === 'dark' ? '/icon_dark.png' : '/icon_original.png'} 
-              alt="PROMTOK Logo" 
+            <img
+              src={'/images/protologo.png'}
+              alt="PROMTOK Logo"
+              onError={(e) => {
+                const img = e.currentTarget as HTMLImageElement
+                if (!img.dataset.fallback) {
+                  img.dataset.fallback = '1'
+                  img.src = theme === 'dark' ? '/icon_dark.png' : '/icon_original.png'
+                } else if (img.dataset.fallback === '1') {
+                  img.dataset.fallback = '2'
+                  img.src = theme === 'dark' ? '/icon_dark.PNG' : '/icon_original.PNG'
+                }
+              }}
               className="h-16 w-16 transition-transform hover:scale-105"
             />
           </div>

@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Python deps
-COPY requirements.txt /app/requirements.txt
+# When building with repo root as context, copy from promtok_backend/
+COPY promtok_backend/requirements.txt /app/requirements.txt
 # Ensure we have recent build tooling
 RUN python -m pip install --upgrade pip setuptools wheel \
   && python -m pip install --no-cache-dir \
@@ -36,8 +37,8 @@ RUN python -m pip install --upgrade pip setuptools wheel \
        torch torchvision torchaudio \
   && python -m pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy backend source
-COPY . /app/
+# Copy backend source (monorepo-safe)
+COPY promtok_backend/ /app/
 
 # Normalize line endings
 RUN find /app -type f -name "*.sh" -exec dos2unix {} \; && chmod +x /app/start.sh

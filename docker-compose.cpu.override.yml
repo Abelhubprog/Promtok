@@ -1,0 +1,35 @@
+services:
+  backend:
+    entrypoint: ["python","-m","uvicorn","main:app",
+                 "--host","0.0.0.0","--port","8000",
+                 "--log-level","debug",
+                 "--lifespan","off"]     # <- critical
+    command: []
+    init: true                          # reaps zombies; fixes "cannot be killed" during down
+    environment:
+      PYTHONUNBUFFERED: "1"
+      PYTHONPATH: /app
+      FORCE_CPU_MODE: "true"
+      OPENROUTER_API_KEY: dev-placeholder
+    volumes: []                         # remove bind mounts that trigger hot-reload storms
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import socket,sys; s=socket.socket(); s.settimeout(2); s.connect((\"127.0.0.1\",8000)); s.close(); sys.exit(0)'"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+
+  doc-processor:
+    init: true
+    environment:
+      PYTHONPATH: /app   # fixes 'ModuleNotFoundError: ai_researcher'
+
+  nginx:
+    depends_on:
+      - backend          # do not gate on service_healthy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf.dev:/etc/nginx/nginx.conf:ro
