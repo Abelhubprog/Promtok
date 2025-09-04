@@ -1,8 +1,8 @@
 app = "promtok"
-primary_region = "ams"
+primary_region = "jnb"   # matches your existing machines' region
 
 [build]
-  image = "registry.fly.io/promtok:deployment-ba1dbef4b0897fdb719c5dad49a92859"
+  dockerfile = "promtok_backend/Dockerfile"
 
 [env]
   # Force the app to listen on port 8080 (Fly's default)
@@ -43,5 +43,5 @@ primary_region = "ams"
   destination = "/root/.cache/huggingface"
 
 # Database attachment (you'll need to create this separately)
-# fly postgres create --name promtok-pg --region ams
+# fly postgres create --name promtok-pg --region jnb
 # fly postgres attach promtok-pg --app promtok

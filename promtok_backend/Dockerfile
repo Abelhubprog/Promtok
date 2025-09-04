@@ -1,59 +1,29 @@
-# Use NVIDIA CUDA base image for GPU support (verified available version)
-FROM nvidia/cuda:12.4.0-runtime-ubuntu22.04
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=on
 
 WORKDIR /app
 
-# Install system dependencies and Python
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    git \
-    python3.10 \
-    python3.10-dev \
-    python3-pip \
-    python3-setuptools \
-    python3-wheel \
-    # WeasyPrint dependencies
-    libpango-1.0-0 \
-    libpangoft2-1.0-0 \
-    libharfbuzz0b \
-    libffi-dev \
-    libjpeg-dev \
-    libopenjp2-7-dev \
-    libcairo2 \
-    libgdk-pixbuf2.0-0 \
-    libfribidi0 \
-    libglib2.0-0 \
-    libpangocairo-1.0-0 \
-    libpango1.0-dev \
-    libcairo2-dev \
-    pandoc \
-    dos2unix \
     && rm -rf /var/lib/apt/lists/*
-
-# Use Python 3.10 as default
-RUN ln -sf /usr/bin/python3.10 /usr/bin/python && \
-    ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Copy requirements first for better caching
 COPY requirements.txt /app/requirements.txt
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r /app/requirements.txt
 
 # Copy the application code
-COPY . /app/
-
-# Fix line endings for shell scripts (for Windows users)
-RUN find /app -type f -name "*.sh" -exec dos2unix {} \;
-
-# Make the startup script executable
-RUN chmod +x /app/start.sh
+COPY . /app
 
 # Set environment variables
 ENV PYTHONPATH=/app
+ENV PORT=8080
 
-# Expose port for FastAPI
-EXPOSE 8000
+# Expose port for Fly.io
+EXPOSE 8080
 
-# Use the startup script as the default command
-CMD ["/app/start.sh"]
+# Run the FastAPI server
+CMD ["python","-m","uvicorn","main:app","--host","0.0.0.0","--port","8080","--log-level","info"]
