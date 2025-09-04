@@ -41,7 +41,7 @@ def get_cors_origins():
     if allow_wildcard:
         logger.info("CORS: Allowing all origins (wildcard mode)")
         return ["*"]
-    
+
     # Build default origins for backward compatibility
     default_origins = [
         "http://localhost",
@@ -56,7 +56,7 @@ def get_cors_origins():
         "http://127.0.0.1:3030",
         "http://127.0.0.1:8001"
     ]
-    
+
     # Get additional origins from environment variable
     cors_origins_env = os.getenv("CORS_ALLOWED_ORIGINS", "")
     if cors_origins_env == "*":
@@ -69,7 +69,7 @@ def get_cors_origins():
         all_origins = list(set(default_origins + additional_origins))
         logger.info(f"CORS allowed origins configured: {all_origins}")
         return all_origins
-    
+
     # Also add origins based on old environment variables for backward compatibility
     frontend_host = os.getenv("FRONTEND_HOST")
     backend_host = os.getenv("BACKEND_HOST")
@@ -82,7 +82,7 @@ def get_cors_origins():
             backend_port = os.getenv("BACKEND_PORT", "8001")
             default_origins.append(f"http://{backend_host}:{backend_port}")
             default_origins.append(f"http://{backend_host}")
-    
+
     logger.info(f"CORS allowed origins (defaults): {list(set(default_origins))}")
     return list(set(default_origins))
 
@@ -117,36 +117,36 @@ app.include_router(admin.router)
 async def startup_event():
     """Initialize database, AI components and create first user on startup."""
     # Only log at ERROR level or higher based on LOG_LEVEL setting
-    
+
     # Store the main event loop reference for WebSocket updates from background threads
     from ai_researcher.agentic_layer.context_manager import set_main_event_loop
     set_main_event_loop()
-    
+
     # Initialize database connection and tables
     try:
         # Test database connection
         if not test_connection():
             logger.error("Failed to connect to database")
             raise Exception("Database connection failed")
-        
+
         # Initialize database tables
         init_db()
         logger.info("Database initialized successfully")
-        
+
         # For PostgreSQL, ensure required extensions are available
         db_url = os.getenv("DATABASE_URL", "")
         if db_url.startswith(("postgresql", "postgres")):
             from database.init_postgres import ensure_extensions
             ensure_extensions()
-            
+
     except Exception as e:
         logger.error(f"Database initialization failed: {e}", exc_info=True)
         # Continue anyway, as tables might already exist
-    
+
     # Create a configurable thread pool
     max_workers = int(os.getenv("MAX_WORKER_THREADS", "10"))
     app.state.thread_pool = ThreadPoolExecutor(max_workers=max_workers)
-    
+
     # Create first user for development if no users exist
     db = SessionLocal()
     try:
@@ -158,56 +158,56 @@ async def startup_event():
         logger.error(f"Error during initial user check: {e}", exc_info=True)
     finally:
         db.close()
-    
+
     # Clean up dangling CLI-ingested documents
     db = SessionLocal()
     try:
         from database.models import Document, document_group_association
         logger.info("Checking for dangling CLI documents...")
-        
+
         # Find and clean up documents with cli_processing status
         cli_documents = db.query(Document).filter(
             Document.processing_status == "cli_processing"
         ).all()
-        
+
         if cli_documents:
             logger.info(f"Found {len(cli_documents)} dangling CLI documents, cleaning up...")
             deleted_count = 0
-            
+
             for doc in cli_documents:
                 try:
                     # Delete associated files
                     if doc.file_path and os.path.exists(doc.file_path):
                         os.remove(doc.file_path)
-                    
+
                     markdown_path = f"/app/data/markdown_files/{doc.id}.md"
                     if os.path.exists(markdown_path):
                         os.remove(markdown_path)
-                    
+
                     # Remove from document groups
                     db.execute(
                         document_group_association.delete().where(
                             document_group_association.c.document_id == doc.id
                         )
                     )
-                    
+
                     # Delete document record
                     db.delete(doc)
                     deleted_count += 1
                 except Exception as e:
                     logger.warning(f"Failed to clean up document {doc.id}: {e}")
-            
+
             db.commit()
             logger.info(f"Cleaned up {deleted_count} dangling CLI documents")
         else:
             logger.debug("No dangling CLI documents found")
-            
+
     except Exception as e:
         logger.error(f"Failed to run CLI document cleanup: {e}", exc_info=True)
         # Don't fail startup if cleanup fails
     finally:
         db.close()
-    
+
     # Initialize AI research components
     try:
         from api.missions import initialize_ai_components
@@ -216,7 +216,7 @@ async def startup_event():
             logger.error("Failed to initialize AI research components")
     except Exception as e:
         logger.error(f"Error during AI component initialization: {e}", exc_info=True)
-    
+
     # DISABLED: Consistency check causes crashes at startup
     # The consistency manager has complex dependencies that fail during initialization
     # TODO: Fix the initialization order before re-enabling
@@ -235,7 +235,7 @@ async def shutdown_event():
     # Only log at ERROR level or higher based on LOG_LEVEL setting
     if hasattr(app.state, "thread_pool"):
         app.state.thread_pool.shutdown(wait=True)
-    
+
     # No need to stop monitoring since we only run once at startup
     pass
 
@@ -250,3 +250,8 @@ def read_root():
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
+@app.get("/healthz")
+def healthz():
+    return {"ok": True}
+

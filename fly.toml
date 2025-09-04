@@ -30,7 +30,7 @@ primary_region = "jnb"   # matches your existing machines' region
     grace_period = "10s"
     interval = "15s"
     method = "get"
-    path = "/health"
+    path = "/healthz"
     timeout = "5s"
 
 # Mount volumes if needed
